@@ -1,47 +1,50 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
-import Icon from "react-native-vector-icons/FontAwesome";
-
-import { Image, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import React from "react";
+import Main from "./assets/pages/Main";
+import Account from "./assets/pages/Account";
+import AddingReceipt from "./assets/pages/AddingReceipt";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 export default function App() {
-	const [search, onChangeSearch] = useState("");
+	const Stack = createNativeStackNavigator();
 
 	return (
-		<ScrollView style={{ backgroundColor: "#fff" }}>
-			<SafeAreaView style={stylesTopBar.topBar}>
-				<View style={{ marginTop: 15, flexDirection: "row", justifyContent: "space-evenly" }}>
-					<View style={stylesTopBar.search}>
-						<Icon style={{ lineHeight: 37.5, color: "#fe2926" }} name="search" size={15} />
-						<TextInput style={{ paddingLeft: 10 }} onChangeText={onChangeSearch} value={search} placeholder="Wyszukaj..." />
-					</View>
-					<Image source={require("./assets/person-icon.png")} style={stylesTopBar.user} />
-				</View>
-			</SafeAreaView>
-		</ScrollView>
+		<NavigationContainer>
+			<Stack.Navigator>
+				<Stack.Group>
+					<Stack.Screen name="Home" component={Main} options={{ headerShown: false }} />
+					<Stack.Screen
+						name="Account"
+						component={Account}
+						options={{
+							headerStyle: {
+								backgroundColor: "#002047",
+							},
+							headerTitleStyle: {
+								fontWeight: "bold",
+								color: "#fff",
+							},
+							title: "Konto",
+						}}
+					/>
+				</Stack.Group>
+				<Stack.Group screenOptions={{ presentation: "modal" }}>
+					<Stack.Screen
+						name="AddingReceipt"
+						component={AddingReceipt}
+						options={{
+							headerStyle: {
+								backgroundColor: "#002047",
+							},
+							headerTitleStyle: {
+								fontWeight: "bold",
+								color: "#fff",
+							},
+							title: "Dodaj nowy pargon",
+						}}
+					/>
+				</Stack.Group>
+			</Stack.Navigator>
+		</NavigationContainer>
 	);
 }
-
-const stylesTopBar = StyleSheet.create({
-	topBar: {
-		backgroundColor: "#002047",
-		paddingTop: Platform.OS === "android" ? StatusBar.curentHeight : 0,
-	},
-	user: {
-		borderColor: "#fff",
-		borderWidth: 1,
-		width: 40,
-		height: 40,
-		borderRadius: "50%",
-	},
-	search: {
-		backgroundColor: "#fff",
-		marginBottom: 70,
-		height: 40,
-		width: "75%",
-		paddingHorizontal: 20,
-		flexDirection: "row",
-		color: "red",
-		borderRadius: "50%",
-	},
-});
