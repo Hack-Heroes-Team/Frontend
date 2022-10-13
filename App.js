@@ -2,6 +2,7 @@ import React from "react";
 import Main from "./assets/pages/Main";
 import Account from "./assets/pages/Account";
 import AddingReceipt from "./assets/pages/AddingReceipt";
+import ShopScreen from "./assets/pages/ShopScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -27,6 +28,7 @@ export default function App() {
 							title: "Konto",
 						}}
 					/>
+					<Stack.Screen name="ShopScreen" component={ShopScreen} />
 				</Stack.Group>
 				<Stack.Group screenOptions={{ presentation: "modal" }}>
 					<Stack.Screen

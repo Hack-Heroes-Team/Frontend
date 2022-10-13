@@ -79,23 +79,23 @@ function ShopsContainer({ navigation }) {
 			<View style={stylesContainer.mainBox}>
 				<Text style={stylesContainer.title}>Najniższe ceny w okolicy:</Text>
 
-				<TouchableWithoutFeedback onPress={() => null}>
+				<TouchableWithoutFeedback onPress={() => navigation.navigate("ShopScreen", { name: "Biedronka" })}>
 					<View style={stylesContainer.shopBox}>
 						<Text style={{ color: "#fe2926", fontSize: 40, fontFamily: fontsLoaded ? "Lato_900Black" : "Arial" }}>1.</Text>
 						<View style={{ marginRight: 30 }}>
-							<Text style={{ textAlign: "right", fontWeight: "bold", fontSize: 20 }}>Biedronka</Text>
-							<Text style={{ textAlign: "right", fontWeight: "200", fontSize: 15 }}>Warszawska 62, Kraków</Text>
+							<Text style={stylesContainer.shopName}>Biedronka</Text>
+							<Text style={stylesContainer.shopAddress}>Warszawska 62, Kraków</Text>
 						</View>
 						<Icon name="triangle-down" style={{ color: "#EF094A", position: "absolute", right: 0 }} size={40} />
 					</View>
 				</TouchableWithoutFeedback>
 
-				<TouchableWithoutFeedback onPress={() => null}>
+				<TouchableWithoutFeedback onPress={() => navigation.navigate("ShopScreen", { name: "Biedronka" })}>
 					<View style={stylesContainer.shopBox}>
 						<Text style={{ color: "#fe2926", fontSize: 40, fontFamily: fontsLoaded ? "Lato_900Black" : "Arial" }}>2.</Text>
 						<View style={{ marginRight: 30 }}>
-							<Text style={{ textAlign: "right", fontWeight: "bold", fontSize: 20 }}>Lidl</Text>
-							<Text style={{ textAlign: "right", fontWeight: "200", fontSize: 15 }}>Długa 20, Kraków</Text>
+							<Text style={stylesContainer.shopName}>Lidl</Text>
+							<Text style={stylesContainer.shopAddress}>Długa 20, Kraków</Text>
 						</View>
 						<Icon name="triangle-up" style={{ color: "#4FE3B4", position: "absolute", right: 0 }} size={40} />
 					</View>
@@ -134,5 +134,15 @@ const stylesContainer = StyleSheet.create({
 		borderTopWidth: 1,
 		padding: 15,
 		borderTopColor: "#002047",
+	},
+	shopName: {
+		textAlign: "right",
+		fontWeight: "bold",
+		fontSize: 20,
+	},
+	shopAddress: {
+		textAlign: "right",
+		fontWeight: "200",
+		fontSize: 15,
 	},
 });
