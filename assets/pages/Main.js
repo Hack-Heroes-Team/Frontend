@@ -64,7 +64,7 @@ const stylesTopBar = StyleSheet.create({
 	icon: {
 		backgroundColor: "#fe2926",
 		position: "absolute",
-		bottom: 15,
+		bottom: 25,
 		padding: 10,
 		alignSelf: "center",
 		borderRadius: "50%",
@@ -86,7 +86,7 @@ function ShopsContainer({ navigation }) {
 							<Text style={{ textAlign: "right", fontWeight: "bold", fontSize: 20 }}>Biedronka</Text>
 							<Text style={{ textAlign: "right", fontWeight: "200", fontSize: 15 }}>Warszawska 62, Kraków</Text>
 						</View>
-						<Icon name="triangle-down" style={{ color: "red", position: "absolute", right: 0 }} size={40} />
+						<Icon name="triangle-down" style={{ color: "#EF094A", position: "absolute", right: 0 }} size={40} />
 					</View>
 				</TouchableWithoutFeedback>
 
@@ -97,7 +97,7 @@ function ShopsContainer({ navigation }) {
 							<Text style={{ textAlign: "right", fontWeight: "bold", fontSize: 20 }}>Lidl</Text>
 							<Text style={{ textAlign: "right", fontWeight: "200", fontSize: 15 }}>Długa 20, Kraków</Text>
 						</View>
-						<Icon name="triangle-up" style={{ color: "green", position: "absolute", right: 0 }} size={40} />
+						<Icon name="triangle-up" style={{ color: "#4FE3B4", position: "absolute", right: 0 }} size={40} />
 					</View>
 				</TouchableWithoutFeedback>
 			</View>
@@ -113,10 +113,10 @@ const stylesContainer = StyleSheet.create({
 		shadowColor: "#000",
 		shadowOffset: {
 			width: 0,
-			height: 2,
+			height: 1,
 		},
 		shadowOpacity: 0.25,
-		shadowRadius: 3.84,
+		shadowRadius: 2,
 		borderRadius: 15,
 		elevation: 5,
 	},
