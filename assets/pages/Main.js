@@ -6,7 +6,7 @@ import { Image, Platform, SafeAreaView, ScrollView, StyleSheet, TextInput, Text,
 
 export default function Main({ navigation }) {
 	return (
-		<View>
+		<View style={{ flex: 1 }}>
 			<ScrollView style={{ backgroundColor: "#f9f9ff" }}>
 				<TopBar navigation={navigation} />
 				<ShopsContainer navigation={navigation} />
@@ -109,7 +109,6 @@ const stylesContainer = StyleSheet.create({
 	mainBox: {
 		paddingHorizontal: 15,
 		backgroundColor: "#fff",
-		minHeight: 800,
 		shadowColor: "#000",
 		shadowOffset: {
 			width: 0,

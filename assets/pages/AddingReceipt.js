@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, Image } from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { useEffect, useRef, useState } from "react";
 import { Camera } from "expo-camera";
 import Icon from "react-native-vector-icons/Entypo";
@@ -30,6 +30,7 @@ export default function AddingReceipt({ navigation }) {
 
 		let newPhoto = await cameraRef.current.takePictureAsync(options);
 		setPhoto(newPhoto);
+		console.log("a");
 	};
 
 	return (
