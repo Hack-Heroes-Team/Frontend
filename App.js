@@ -11,7 +11,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 export default function App() {
 	const Stack = createNativeStackNavigator();
-	const loggedIn = false;
+	const loggedIn = true;
 	return (
 		<NavigationContainer>
 			<Stack.Navigator>
@@ -28,12 +28,21 @@ export default function App() {
 									},
 									headerTitleStyle: {
 										fontWeight: "bold",
-										color: "#fff",
 									},
 									title: "Konto",
+									headerTintColor: "#fff",
 								}}
 							/>
-							<Stack.Screen name="ShopScreen" component={ShopScreen} />
+							<Stack.Screen
+								name="ShopScreen"
+								component={ShopScreen}
+								options={{
+									headerTintColor: "#fff",
+									headerTitleStyle: {
+										fontWeight: "bold",
+									},
+								}}
+							/>
 						</Stack.Group>
 						<Stack.Group screenOptions={{ presentation: "modal" }}>
 							<Stack.Screen
@@ -45,8 +54,8 @@ export default function App() {
 									},
 									headerTitleStyle: {
 										fontWeight: "bold",
-										color: "#fff",
 									},
+									headerTintColor: "#fff",
 									title: "Dodaj nowy pargon",
 								}}
 							/>

@@ -1,8 +1,7 @@
-import { StatusBar } from "expo-status-bar";
 import { useFonts, Lato_900Black } from "@expo-google-fonts/dev";
 import React, { useState } from "react";
 import Icon from "react-native-vector-icons/Entypo";
-import { Image, Platform, SafeAreaView, ScrollView, StyleSheet, TextInput, Text, TouchableOpacity, View, TouchableWithoutFeedback } from "react-native";
+import { Image, Platform, StatusBar, SafeAreaView, ScrollView, StyleSheet, TextInput, Text, TouchableOpacity, View, TouchableWithoutFeedback } from "react-native";
 
 export default function Main({ navigation }) {
 	return (
@@ -38,14 +37,14 @@ function TopBar({ navigation }) {
 const stylesTopBar = StyleSheet.create({
 	topBar: {
 		backgroundColor: "#002047",
-		paddingTop: Platform.OS === "android" ? StatusBar.curentHeight : 0,
+		paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
 	},
 	user: {
 		borderColor: "#fff",
 		borderWidth: 1,
 		width: 35,
 		height: 35,
-		borderRadius: "50%",
+		borderRadius: 50,
 	},
 	search: {
 		backgroundColor: "#fff",
@@ -54,7 +53,7 @@ const stylesTopBar = StyleSheet.create({
 		paddingHorizontal: 20,
 		flexDirection: "row",
 		color: "red",
-		borderRadius: "50%",
+		borderRadius: 50,
 	},
 	verticalContainer: {
 		flexDirection: "row",
@@ -67,7 +66,7 @@ const stylesTopBar = StyleSheet.create({
 		bottom: 25,
 		padding: 10,
 		alignSelf: "center",
-		borderRadius: "50%",
+		borderRadius: 50,
 	},
 });
 
