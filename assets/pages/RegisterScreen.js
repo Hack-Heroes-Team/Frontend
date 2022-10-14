@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, TextInput } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { useFonts, Ubuntu_700Bold, MavenPro_700Bold, MavenPro_300Light } from "@expo-google-fonts/dev";
 
 export default function RegisterScreen() {
