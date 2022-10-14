@@ -25,7 +25,7 @@ function TopBar({ navigation }) {
 			<View style={{ marginTop: 15, marginBottom: 20, flexDirection: "row", justifyContent: "space-evenly" }}>
 				<View style={stylesTopBar.search}>
 					<Icon style={{ lineHeight: 35, color: "#fe2926" }} name="magnifying-glass" size={20} />
-					<TextInput style={{ paddingLeft: 10, width: "95%" }} onChangeText={onChangeSearch} value={search} placeholder="Wyszukaj..." />
+					<TextInput style={{ paddingLeft: 10, width: "95%" }} onChangeText={onChangeSearch} value={search} placeholder="Wyszukaj..." autoCorrect={true} placeholderTextColor={"#002047"} />
 				</View>
 				<TouchableOpacity onPress={() => navigation.navigate("Account")}>
 					<Image source={require("../person-icon.png")} style={stylesTopBar.user} />
@@ -90,7 +90,7 @@ function ShopsContainer({ navigation }) {
 					</View>
 				</TouchableWithoutFeedback>
 
-				<TouchableWithoutFeedback onPress={() => navigation.navigate("ShopScreen", { name: "Biedronka" })}>
+				<TouchableWithoutFeedback onPress={() => navigation.navigate("ShopScreen", { name: "Lidl" })}>
 					<View style={stylesContainer.shopBox}>
 						<Text style={{ color: "#fe2926", fontSize: 40, fontFamily: fontsLoaded ? "Lato_900Black" : "Arial" }}>2.</Text>
 						<View style={{ marginRight: 30 }}>
