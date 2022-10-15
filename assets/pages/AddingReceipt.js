@@ -38,6 +38,7 @@ export default function AddingReceipt({ navigation }) {
 			<TouchableOpacity onPress={() => takePic()} style={styles.icon}>
 				<Icon name="camera" style={{ color: "#fff" }} size={40} />
 			</TouchableOpacity>
+
 			<TouchableOpacity
 				onPress={() => {
 					navigation.goBack();

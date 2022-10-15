@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View, TextInput } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { useState } from "react";
 
 import Icon from "react-native-vector-icons/Entypo";
@@ -6,7 +6,7 @@ import Icon from "react-native-vector-icons/Entypo";
 export default function AddingReceiptManualy({ navigation }) {
 	return (
 		<>
-			<TouchableOpacity onPress={() => navigation} style={styles.iconBackward}>
+			<TouchableOpacity onPress={() => navigation.navigate("AddingReceipt")} style={styles.iconBackward}>
 				<Icon name="camera" style={{ color: "#fff" }} size={25} />
 			</TouchableOpacity>
 			<TouchableOpacity onPress={() => navigation} style={styles.iconForward}>
