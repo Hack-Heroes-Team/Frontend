@@ -24,7 +24,7 @@ function TopBar({ navigation }) {
 	const [search, onChangeSearch] = useState("");
 	return (
 		<SafeAreaView style={styles.topBar}>
-			<View style={{ marginTop: 15, marginBottom: 20, flexDirection: "row", justifyContent: "space-evenly" }}>
+			<View style={{ marginTop: 15, marginBottom: 10, flexDirection: "row", justifyContent: "space-evenly" }}>
 				<View style={styles.search}>
 					<Icon style={{ lineHeight: 35, color: "#fe2926" }} name="magnifying-glass" size={20} />
 					<TextInput style={{ paddingLeft: 10, width: "95%" }} onChangeText={onChangeSearch} value={search} placeholder="Wyszukaj..." autoCorrect={true} placeholderTextColor={"#002047"} />

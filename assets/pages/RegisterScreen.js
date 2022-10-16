@@ -1,9 +1,9 @@
 import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, TextInput } from "react-native";
-import React, { useState } from "react";
-import { useFonts, Ubuntu_700Bold, MavenPro_700Bold, MavenPro_300Light } from "@expo-google-fonts/dev";
+import React, { useState, useCallback } from "react";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
 
 export default function RegisterScreen() {
-	let [fontsLoaded] = useFonts({ Ubuntu_700Bold, MavenPro_700Bold, MavenPro_300Light });
 	const [name, setName] = useState("");
 	const [surname, setSurname] = useState("");
 	const [city, setCity] = useState("");
@@ -11,20 +11,36 @@ export default function RegisterScreen() {
 	const [password, setPassword] = useState("");
 	const [rePassword, setrePassword] = useState("");
 
+	const [fontsLoaded] = useFonts({
+		Ubuntu_Bold: require("../fonts/Ubuntu-Bold.ttf"),
+		MavenPro_Bold: require("../fonts/MavenPro-Bold.ttf"),
+		MavenPro_Regular: require("../fonts/MavenPro-Regular.ttf"),
+	});
+
+	const onLayoutRootView = useCallback(async () => {
+		if (fontsLoaded) {
+			await SplashScreen.hideAsync();
+		}
+	}, [fontsLoaded]);
+
+	if (!fontsLoaded) {
+		return null;
+	}
+
 	return (
 		<SafeAreaView style={styles.screen}>
-			<Text style={{ fontFamily: fontsLoaded ? "MavenPro_700Bold" : "Arial", ...styles.title }}>Zarejestruj się</Text>
+			<Text style={styles.title}>Zarejestruj się</Text>
 
 			<View style={styles.formContainer}>
-				<TextInput value={name} onChangeText={setName} style={{ fontFamily: fontsLoaded ? "MavenPro_300Light" : "Arial", ...styles.input }} placeholder="imię..." placeholderTextColor={"#00204750"}></TextInput>
-				<TextInput value={surname} onChangeText={setSurname} style={{ fontFamily: fontsLoaded ? "MavenPro_300Light" : "Arial", ...styles.input }} placeholder="nazwisko..." placeholderTextColor={"#00204750"}></TextInput>
-				<TextInput value={city} onChangeText={setCity} style={{ fontFamily: fontsLoaded ? "MavenPro_300Light" : "Arial", ...styles.input }} placeholder="miasto..." placeholderTextColor={"#00204750"}></TextInput>
-				<TextInput value={email} onChangeText={setEmail} style={{ fontFamily: fontsLoaded ? "MavenPro_300Light" : "Arial", ...styles.input }} placeholder="email..." placeholderTextColor={"#00204750"}></TextInput>
-				<TextInput value={password} onChangeText={setPassword} style={{ fontFamily: fontsLoaded ? "MavenPro_300Light" : "Arial", ...styles.input }} placeholder="hasło..." placeholderTextColor={"#00204750"}></TextInput>
-				<TextInput value={rePassword} onChangeText={setrePassword} style={{ fontFamily: fontsLoaded ? "MavenPro_300Light" : "Arial", ...styles.input }} placeholder="powtórz hasło..." placeholderTextColor={"#00204750"}></TextInput>
+				<TextInput value={name} onChangeText={setName} placeholder="imię..." placeholderTextColor={"#00204750"} style={styles.input}></TextInput>
+				<TextInput value={surname} onChangeText={setSurname} placeholder="nazwisko..." placeholderTextColor={"#00204750"} style={styles.input}></TextInput>
+				<TextInput value={city} onChangeText={setCity} placeholder="miasto..." placeholderTextColor={"#00204750"} style={styles.input}></TextInput>
+				<TextInput value={email} onChangeText={setEmail} placeholder="email..." placeholderTextColor={"#00204750"} style={styles.input}></TextInput>
+				<TextInput value={password} onChangeText={setPassword} placeholder="hasło..." placeholderTextColor={"#00204750"} style={styles.input}></TextInput>
+				<TextInput value={rePassword} onChangeText={setrePassword} placeholder="powtórz hasło..." placeholderTextColor={"#00204750"} style={styles.input}></TextInput>
 
 				<TouchableOpacity style={styles.button}>
-					<Text style={{ fontFamily: fontsLoaded ? "Ubuntu_700Bold" : "Arial", ...styles.text }}>Zarejestruj się</Text>
+					<Text style={styles.text}>Zarejestruj się</Text>
 				</TouchableOpacity>
 			</View>
 		</SafeAreaView>
@@ -41,6 +57,7 @@ const styles = StyleSheet.create({
 		fontSize: 40,
 		textAlign: "center",
 		color: "#002047",
+		fontFamily: "MavenPro_Bold",
 	},
 	formContainer: {
 		bottom: 0,
@@ -60,6 +77,7 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 		color: "#002047",
 		fontSize: 22,
+		fontFamily: "Ubuntu_Bold",
 	},
 	input: {
 		marginVertical: 10,
@@ -70,5 +88,6 @@ const styles = StyleSheet.create({
 		width: "80%",
 		color: "#002047",
 		fontSize: 18,
+		fontFamily: "MavenPro_Regular",
 	},
 });

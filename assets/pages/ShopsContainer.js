@@ -1,11 +1,12 @@
-import { useFonts, Lato_900Black } from "@expo-google-fonts/dev";
+import { useFonts } from "expo-font";
 import React from "react";
 import Icon from "react-native-vector-icons/Entypo";
 import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
 
 export default function ShopsContainer({ navigation }) {
-	let [fontsLoaded] = useFonts({ Lato_900Black });
-
+	const [fontsLoaded] = useFonts({
+		Lato_900Black: require("../fonts/Lato-Black.ttf"),
+	});
 	return (
 		<View style={{ padding: 25, backgroundColor: "#f9f9ff" }}>
 			<View style={styles.mainBox}>
@@ -13,7 +14,7 @@ export default function ShopsContainer({ navigation }) {
 
 				<TouchableWithoutFeedback onPress={() => navigation.navigate("ShopScreen", { name: "Biedronka" })}>
 					<View style={styles.shopBox}>
-						<Text style={{ color: "#fe2926", fontSize: 40, fontFamily: fontsLoaded ? "Lato_900Black" : "Arial" }}>1.</Text>
+						<Text style={{ color: "#fe2926", fontSize: 40, fontFamily: "Lato_900Black" }}>1.</Text>
 						<View style={{ marginRight: 30 }}>
 							<Text style={styles.shopName}>Biedronka</Text>
 							<Text style={styles.shopAddress}>Warszawska 62, Kraków</Text>
@@ -24,7 +25,7 @@ export default function ShopsContainer({ navigation }) {
 
 				<TouchableWithoutFeedback onPress={() => navigation.navigate("ShopScreen", { name: "Lidl" })}>
 					<View style={styles.shopBox}>
-						<Text style={{ color: "#fe2926", fontSize: 40, fontFamily: fontsLoaded ? "Lato_900Black" : "Arial" }}>2.</Text>
+						<Text style={{ color: "#fe2926", fontSize: 40, fontFamily: "Lato_900Black" }}>2.</Text>
 						<View style={{ marginRight: 30 }}>
 							<Text style={styles.shopName}>Lidl</Text>
 							<Text style={styles.shopAddress}>Długa 20, Kraków</Text>

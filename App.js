@@ -12,7 +12,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 export default function App() {
 	const Stack = createNativeStackNavigator();
-	const loggedIn = true;
+	const loggedIn = false;
 	return (
 		<NavigationContainer>
 			<Stack.Navigator>
