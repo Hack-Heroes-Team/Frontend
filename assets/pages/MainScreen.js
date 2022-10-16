@@ -2,75 +2,92 @@ import React, { useState } from "react";
 import Icon from "react-native-vector-icons/Entypo";
 import { Image, Platform, StatusBar, SafeAreaView, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 
+// Importing Dashboard and component with Top Shops
 import ShopsContainer from "./ShopsContainer";
 import Dashboard from "./Dashboard";
 
+// Main view of app
 export default function Main({ navigation }) {
 	return (
 		<View style={{ flex: 1 }}>
+			{/* Scrollable part of view */}
 			<ScrollView style={{ backgroundColor: "#f9f9ff" }}>
+				{/* Adding TopBar component (underneath) */}
 				<TopBar navigation={navigation} />
+
+				{/* Adding ShopContainer component (from imports) */}
 				<ShopsContainer navigation={navigation} />
 			</ScrollView>
 
-			<TouchableOpacity onPress={() => navigation.navigate("AddingReceipt")} style={styles.icon}>
+			{/* 'Add receipe' button  */}
+			<TouchableOpacity onPress={() => navigation.navigate("AddingReceiptCamera")} style={styles.addReceipeIcon}>
 				<Icon name="plus" style={{ color: "#fff" }} size={50} />
 			</TouchableOpacity>
 		</View>
 	);
 }
 
+// Top Bar component
 function TopBar({ navigation }) {
+	// Setting up variable to handle data in search bar
 	const [search, onChangeSearch] = useState("");
+
 	return (
 		<SafeAreaView style={styles.topBar}>
-			<View style={{ marginTop: 15, marginBottom: 10, flexDirection: "row", justifyContent: "space-evenly" }}>
-				<View style={styles.search}>
+			<View style={styles.searchAndIconContainer}>
+				{/* Search window */}
+				<View style={styles.searchBar}>
 					<Icon style={{ lineHeight: 35, color: "#fe2926" }} name="magnifying-glass" size={20} />
 					<TextInput style={{ paddingLeft: 10, width: "95%" }} onChangeText={onChangeSearch} value={search} placeholder="Wyszukaj..." autoCorrect={true} placeholderTextColor={"#002047"} />
 				</View>
-				<TouchableOpacity onPress={() => navigation.navigate("Account")}>
-					<Image source={require("../person-icon.png")} style={styles.user} />
+
+				{/* User and app setting */}
+				<TouchableOpacity onPress={() => navigation.navigate("Settings")}>
+					<Image source={require("../person-icon.png")} style={styles.userIcon} />
 				</TouchableOpacity>
 			</View>
 
+			{/* Adding ShopContainer componetn (from imports) */}
 			<Dashboard />
 		</SafeAreaView>
 	);
 }
 
+// Style sheet
 const styles = StyleSheet.create({
+	addReceipeIcon: {
+		backgroundColor: "#fe2926",
+		position: "absolute",
+		bottom: 25,
+		padding: 10,
+		alignSelf: "center",
+		borderRadius: 50,
+	},
+
+	// TopBar styles
 	topBar: {
 		backgroundColor: "#002047",
 		paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
 	},
-	user: {
+	searchAndIconContainer: {
+		marginTop: 15,
+		marginBottom: 10,
+		flexDirection: "row",
+		justifyContent: "space-evenly",
+	},
+	userIcon: {
 		borderColor: "#fff",
 		borderWidth: 1,
 		width: 35,
 		height: 35,
 		borderRadius: 50,
 	},
-	search: {
+	searchBar: {
 		backgroundColor: "#fff",
 		width: "75%",
 		height: 35,
 		paddingHorizontal: 20,
 		flexDirection: "row",
-		color: "red",
-		borderRadius: 50,
-	},
-	verticalContainer: {
-		flexDirection: "row",
-		marginLeft: 25,
-		marginTop: 10,
-	},
-	icon: {
-		backgroundColor: "#fe2926",
-		position: "absolute",
-		bottom: 25,
-		padding: 10,
-		alignSelf: "center",
 		borderRadius: 50,
 	},
 });

@@ -2,6 +2,7 @@ import { View, Text } from "react-native";
 import React, { useLayoutEffect } from "react";
 
 export default function ShopScreen({ navigation, route }) {
+	// Setting up window title
 	useLayoutEffect(() => {
 		navigation.setOptions({
 			headerStyle: {
@@ -14,6 +15,7 @@ export default function ShopScreen({ navigation, route }) {
 			title: route.params.name,
 		});
 	});
+
 	return (
 		<View>
 			<Text>ShopScreen</Text>

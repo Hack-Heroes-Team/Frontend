@@ -1,14 +1,16 @@
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { useState } from "react";
-
 import Icon from "react-native-vector-icons/Entypo";
 
-export default function AddingReceiptManualy({ navigation }) {
+export default function AddingReceiptForm({ navigation }) {
 	return (
 		<>
-			<TouchableOpacity onPress={() => navigation.navigate("AddingReceipt")} style={styles.iconBackward}>
+			{/* Go to adding receipe by camera window */}
+			<TouchableOpacity onPress={() => navigation.goBack()} style={styles.cameraIcon}>
 				<Icon name="camera" style={{ color: "#fff" }} size={25} />
 			</TouchableOpacity>
+
+			{/* Forward icon */}
 			<TouchableOpacity onPress={() => navigation} style={styles.iconForward}>
 				<Icon name="arrow-right" style={{ color: "#fff" }} size={25} />
 			</TouchableOpacity>
@@ -16,12 +18,9 @@ export default function AddingReceiptManualy({ navigation }) {
 	);
 }
 
+// Style sheet
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-	},
-
-	iconBackward: {
+	cameraIcon: {
 		backgroundColor: "#002047",
 		position: "absolute",
 		bottom: 37.5,

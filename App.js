@@ -1,27 +1,37 @@
 import React from "react";
-import Main from "./assets/pages/Main";
-import Account from "./assets/pages/Account";
-import AddingReceipt from "./assets/pages/AddingReceipt";
-import AddingReceiptManualy from "./assets/pages/AddingReceiptManualy";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+// Importing screens
+import MainScreen from "./assets/pages/MainScreen";
+import Settings from "./assets/pages/Settings";
+import AddingReceiptCamera from "./assets/pages/AddingReceiptCamera";
+import AddingReceiptForm from "./assets/pages/AddingReceiptForm";
 import ShopScreen from "./assets/pages/ShopScreen";
 import StartScreen from "./assets/pages/StartScreen";
 import LoginScreen from "./assets/pages/LoginScreen";
 import RegisterScreen from "./assets/pages/RegisterScreen";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 export default function App() {
 	const Stack = createNativeStackNavigator();
-	const loggedIn = false;
+
+	// Is loggedIn?
+	const loggedIn = true;
+
 	return (
 		<NavigationContainer>
 			<Stack.Navigator>
+				{/* Is user logged? */}
 				{loggedIn ? (
+					// If user is logged in
 					<Stack.Group>
-						<Stack.Screen name="Home" component={Main} options={{ headerShown: false }} />
+						{/* Home screen */}
+						<Stack.Screen name="MainScreen" component={MainScreen} options={{ headerShown: false }} />
+
+						{/* Settings screen */}
 						<Stack.Screen
-							name="Account"
-							component={Account}
+							name="Settings"
+							component={Settings}
 							options={{
 								headerStyle: {
 									backgroundColor: "#002047",
@@ -33,6 +43,8 @@ export default function App() {
 								headerTintColor: "#fff",
 							}}
 						/>
+
+						{/* Screen of one shop */}
 						<Stack.Screen
 							name="ShopScreen"
 							component={ShopScreen}
@@ -44,9 +56,10 @@ export default function App() {
 							}}
 						/>
 
+						{/* Adding receipe with camera */}
 						<Stack.Screen
-							name="AddingReceipt"
-							component={AddingReceipt}
+							name="AddingReceiptCamera"
+							component={AddingReceiptCamera}
 							options={{
 								headerStyle: {
 									backgroundColor: "#002047",
@@ -58,9 +71,11 @@ export default function App() {
 								title: "Dodaj nowy pargon",
 							}}
 						/>
+
+						{/* Adding receipe with form */}
 						<Stack.Screen
-							name="AddingReceiptManualy"
-							component={AddingReceiptManualy}
+							name="AddingReceiptForm"
+							component={AddingReceiptForm}
 							options={{
 								headerStyle: {
 									backgroundColor: "#002047",
@@ -74,6 +89,7 @@ export default function App() {
 						/>
 					</Stack.Group>
 				) : (
+					// If user isn't logged in
 					<Stack.Group>
 						<Stack.Screen name="StartScreen" component={StartScreen} options={{ headerShown: false }} />
 						<Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />

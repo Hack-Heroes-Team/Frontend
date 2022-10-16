@@ -4,40 +4,46 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
 export default function StartScreen({ navigation }) {
+	// Adding fonts
 	const [fontsLoaded] = useFonts({
 		Ubuntu_Bold: require("../fonts/Ubuntu-Bold.ttf"),
 		MavenPro_Bold: require("../fonts/MavenPro-Bold.ttf"),
 	});
 
+	// Waiting for fonts to download
 	const onLayoutRootView = useCallback(async () => {
 		if (fontsLoaded) {
 			await SplashScreen.hideAsync();
 		}
 	}, [fontsLoaded]);
-
 	if (!fontsLoaded) {
 		return null;
 	}
 
 	return (
-		<SafeAreaView style={styles.screen}>
+		<SafeAreaView style={styles.view}>
+			{/* Title */}
 			<Text style={styles.title}>gdzieTaniej?</Text>
 
+			{/* Buttons container */}
 			<View style={styles.buttonsContainer}>
-				<TouchableOpacity style={styles.button_1} onPress={() => navigation.navigate("LoginScreen")}>
-					<Text style={styles.text}>Zaloguj się</Text>
+				{/* Login button */}
+				<TouchableOpacity style={styles.buttonLogin} onPress={() => navigation.navigate("LoginScreen")}>
+					<Text style={styles.buttonsText}>Zaloguj się</Text>
 				</TouchableOpacity>
 
-				<TouchableOpacity style={styles.button_2} onPress={() => navigation.navigate("RegisterScreen")}>
-					<Text style={{ ...styles.text, color: "#fff" }}>Zarejestruj się</Text>
+				{/* Register button */}
+				<TouchableOpacity style={styles.buttonRegister} onPress={() => navigation.navigate("RegisterScreen")}>
+					<Text style={{ ...styles.buttonsText, color: "#fff" }}>Zarejestruj się</Text>
 				</TouchableOpacity>
 			</View>
 		</SafeAreaView>
 	);
 }
 
+// Styles
 const styles = StyleSheet.create({
-	screen: {
+	view: {
 		backgroundColor: "#002047",
 		flex: 1,
 		justifyContent: "space-around",
@@ -53,14 +59,14 @@ const styles = StyleSheet.create({
 		flexDirection: "column",
 		alignItems: "center",
 	},
-	button_1: {
+	buttonLogin: {
 		marginVertical: 12,
 		backgroundColor: "#fff",
 		padding: 20,
 		width: "80%",
 		borderRadius: 12,
 	},
-	button_2: {
+	buttonRegister: {
 		marginVertical: 12,
 		padding: 17,
 		borderColor: "#fff",
@@ -68,7 +74,7 @@ const styles = StyleSheet.create({
 		width: "80%",
 		borderRadius: 12,
 	},
-	text: {
+	buttonsText: {
 		textAlign: "center",
 		fontFamily: "Ubuntu_Bold",
 		color: "#002047",

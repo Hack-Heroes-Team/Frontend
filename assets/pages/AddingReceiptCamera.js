@@ -3,11 +3,13 @@ import { useEffect, useRef, useState } from "react";
 import { Camera } from "expo-camera";
 import Icon from "react-native-vector-icons/Entypo";
 
-export default function AddingReceipt({ navigation }) {
+export default function AddingReceiptCamera({ navigation }) {
+	// Setting up camera and variables for photo and flag if camera has permissions
 	let cameraRef = useRef();
 	const [hasCameraPermission, setHasCameraPermission] = useState();
 	const [photo, setPhoto] = useState();
 
+	// Asking for camera permissions on load
 	useEffect(() => {
 		(async () => {
 			const cameraPermission = await Camera.requestCameraPermissionsAsync();
@@ -15,6 +17,7 @@ export default function AddingReceipt({ navigation }) {
 		})();
 	}, []);
 
+	// Camera status if access isn't granted
 	if (hasCameraPermission === undefined) {
 		return <Text>Requesting permissions...</Text>;
 	} else if (!hasCameraPermission) {
@@ -22,42 +25,42 @@ export default function AddingReceipt({ navigation }) {
 	}
 
 	let takePic = async () => {
+		// Camera options
 		let options = {
 			quality: 1,
 			base64: true,
 			exif: false,
 		};
 
+		// Saving taken photo
 		let newPhoto = await cameraRef.current.takePictureAsync(options);
 		setPhoto(newPhoto);
+
+		// Going back to menu
 		navigation.goBack();
 	};
 
 	return (
-		<Camera flashMode={"auto"} style={styles.container} ref={cameraRef}>
-			<TouchableOpacity onPress={() => takePic()} style={styles.icon}>
+		<Camera flashMode={"auto"} style={styles.view} ref={cameraRef}>
+			{/* Taking photo icon */}
+			<TouchableOpacity onPress={() => takePic()} style={styles.cameraIcon}>
 				<Icon name="camera" style={{ color: "#fff" }} size={40} />
 			</TouchableOpacity>
 
-			<TouchableOpacity
-				onPress={() => {
-					navigation.goBack();
-					navigation.push("AddingReceiptManualy");
-				}}
-				style={styles.icon2}
-			>
+			{/* Go to manually adding receipe window */}
+			<TouchableOpacity onPress={() => navigation.push("AddingReceiptForm")} style={styles.addingManuallyIcon}>
 				<Icon name="new-message" style={{ color: "#fff" }} size={25} />
 			</TouchableOpacity>
 		</Camera>
 	);
 }
 
+// Style sheet
 const styles = StyleSheet.create({
-	container: {
+	view: {
 		flex: 1,
 	},
-
-	icon: {
+	cameraIcon: {
 		backgroundColor: "#fe2926",
 		position: "absolute",
 		bottom: 30,
@@ -65,7 +68,7 @@ const styles = StyleSheet.create({
 		alignSelf: "center",
 		borderRadius: 50,
 	},
-	icon2: {
+	addingManuallyIcon: {
 		backgroundColor: "#002047",
 		position: "absolute",
 		bottom: 37.5,
