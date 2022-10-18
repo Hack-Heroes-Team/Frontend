@@ -3,12 +3,12 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 // Importing screens
-import MainScreen from "./assets/pages/MainScreen";
+import Main from "./assets/pages/Main";
 import Settings from "./assets/pages/Settings";
 import AddingReceiptCamera from "./assets/pages/AddingReceiptCamera";
 import AddingReceiptForm from "./assets/pages/AddingReceiptForm";
 import ShopScreen from "./assets/pages/ShopScreen";
-import StartScreen from "./assets/pages/StartScreen";
+import Start from "./assets/pages/Start";
 import LoginScreen from "./assets/pages/LoginScreen";
 import RegisterScreen from "./assets/pages/RegisterScreen";
 
@@ -26,7 +26,7 @@ export default function App() {
 					// If user is logged in
 					<Stack.Group>
 						{/* Home screen */}
-						<Stack.Screen name="MainScreen" component={MainScreen} options={{ headerShown: false }} />
+						<Stack.Screen name="Main" component={Main} options={{ headerShown: false }} />
 
 						{/* Settings screen */}
 						<Stack.Screen
@@ -84,7 +84,7 @@ export default function App() {
 				) : (
 					// If user isn't logged in
 					<Stack.Group>
-						<Stack.Screen name="StartScreen" component={StartScreen} options={{ headerShown: false }} />
+						<Stack.Screen name="Start" component={Start} options={{ headerShown: false }} />
 						<Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
 						<Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{ headerShown: false }} />
 					</Stack.Group>
