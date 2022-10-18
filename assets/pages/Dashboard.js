@@ -2,11 +2,13 @@ import { ScrollView, View, Text, StyleSheet } from "react-native";
 import React, { useCallback } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+import Icon from "react-native-vector-icons/Entypo";
 
 export default function Dashboard() {
 	// Adding font
 	const [fontsLoaded] = useFonts({
-		Lato_Black: require("../fonts/Lato-Black.ttf"),
+		Lato_Black: require("../fonts/Lato-Bold.ttf"),
+		Montserrat_Black: require("../fonts/Montserrat-Bold.ttf"),
 	});
 
 	// Waiting for font to load
@@ -25,12 +27,29 @@ export default function Dashboard() {
 			<Text style={styles.title}>Statystyki</Text>
 
 			{/* Container for data */}
-			<ScrollView horizontal="true" showsHorizontalScrollIndicator="false" style={styles.container} contentContainerStyle={{ flexDirection: "row" }}>
+			<ScrollView horizontal="true" contentOffset={{ x: -15, y: 0 }} showsHorizontalScrollIndicator="false" style={styles.container} contentContainerStyle={{ flexDirection: "row" }}>
 				{/* Data */}
 
-				<View style={styles.box}></View>
-				<View style={styles.box}></View>
-				<View style={styles.box}></View>
+				{/* Price of last receipe  */}
+				<View style={styles.box}>
+					<Text style={styles.boxTitle}>Cena ostatnich zakupów</Text>
+					<Text style={styles.boxPrice}>
+						50,32zł
+						<Icon name="triangle-down" style={{ color: "#4FE3B4" }} size={35} />
+					</Text>
+				</View>
+
+				{/* User avg prices  */}
+				<View style={styles.box}>
+					<Text style={styles.boxTitle}>Średnia cena zakupów</Text>
+					<Text style={styles.boxPrice}>92,59zł</Text>
+				</View>
+
+				{/* Avg prices nearby */}
+				<View style={styles.box}>
+					<Text style={styles.boxTitle}>Cena zakupów w okolicy</Text>
+					<Text style={styles.boxPrice}>75,19zł</Text>
+				</View>
 			</ScrollView>
 		</>
 	);
@@ -46,14 +65,32 @@ const styles = StyleSheet.create({
 		color: "#fff",
 	},
 	container: {
-		padding: 15,
 		flexDirection: "row",
+		paddingVertical: 15,
 	},
+
+	// Box styling
 	box: {
 		backgroundColor: "#fff",
 		borderRadius: 5,
-		width: 150,
-		height: 75,
+		width: 200,
+		height: 85,
 		margin: 7.5,
+		padding: 12.5,
+		alignItems: "center",
+		justifyContent: "space-between",
+	},
+	boxTitle: {
+		fontWeight: "700",
+		color: "#002047",
+	},
+	boxPrice: {
+		fontFamily: "Montserrat_Black",
+		color: "#fe2926",
+		fontSize: 30,
+	},
+	boxTriangleIcon: {
+		lineHeight: 50,
+		position: "absolute",
 	},
 });

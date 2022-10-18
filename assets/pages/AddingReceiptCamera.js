@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, StatusBar } from "react-native";
 import { useEffect, useRef, useState } from "react";
 import { Camera } from "expo-camera";
 import Icon from "react-native-vector-icons/Entypo";
@@ -42,6 +42,8 @@ export default function AddingReceiptCamera({ navigation }) {
 
 	return (
 		<Camera flashMode={"auto"} style={styles.view} ref={cameraRef}>
+			<StatusBar hidden={true} />
+
 			{/* Taking photo icon */}
 			<TouchableOpacity onPress={() => takePic()} style={styles.cameraIcon}>
 				<Icon name="camera" style={{ color: "#fff" }} size={40} />

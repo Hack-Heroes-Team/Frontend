@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, TextInput } from "react-native";
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, TextInput, StatusBar } from "react-native";
 import React, { useState, useCallback } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
@@ -31,9 +31,10 @@ export default function RegisterScreen() {
 
 	return (
 		<SafeAreaView style={styles.view}>
+			<StatusBar barStyle={"dark-content"} />
+
 			{/* Title */}
 			<Text style={styles.title}>Zarejestruj się</Text>
-
 			{/* Register form */}
 			<View style={styles.formContainer}>
 				{/* Fields */}

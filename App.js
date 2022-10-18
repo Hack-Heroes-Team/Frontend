@@ -61,14 +61,7 @@ export default function App() {
 							name="AddingReceiptCamera"
 							component={AddingReceiptCamera}
 							options={{
-								headerStyle: {
-									backgroundColor: "#002047",
-								},
-								headerTitleStyle: {
-									fontWeight: "bold",
-								},
-								headerTintColor: "#fff",
-								title: "Dodaj nowy pargon",
+								headerShown: false,
 							}}
 						/>
 

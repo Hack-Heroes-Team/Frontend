@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, StatusBar } from "react-native";
 import React, { useCallback } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
@@ -22,6 +22,8 @@ export default function StartScreen({ navigation }) {
 
 	return (
 		<SafeAreaView style={styles.view}>
+			<StatusBar barStyle={"light-content"} />
+
 			{/* Title */}
 			<Text style={styles.title}>gdzieTaniej?</Text>
 

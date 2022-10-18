@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
 	shopPossitonNum: {
 		color: "#fe2926",
 		fontSize: 40,
-		fontFamily: "Lato_900Black",
+		fontFamily: "Lato_Black",
 	},
 	shopName: {
 		textAlign: "right",
