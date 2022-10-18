@@ -1,9 +1,11 @@
 import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, TextInput, StatusBar } from "react-native";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useContext } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-
+import { AuthContext } from "./auth/UseAuth";
 export default function LoginScreen() {
+	const { login } = useContext(AuthContext);
+
 	// Setting up variables to handle data in form
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -39,7 +41,7 @@ export default function LoginScreen() {
 				<TextInput value={password} onChangeText={setPassword} style={styles.input} placeholder="hasło..." placeholderTextColor={"#00204750"}></TextInput>
 
 				{/* Login button */}
-				<TouchableOpacity style={styles.confirmButton}>
+				<TouchableOpacity onPress={login} style={styles.confirmButton}>
 					<Text style={styles.buttonText}>Zaloguj się</Text>
 				</TouchableOpacity>
 			</View>
