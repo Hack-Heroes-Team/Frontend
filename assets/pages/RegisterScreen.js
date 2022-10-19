@@ -1,16 +1,18 @@
 import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, TextInput, StatusBar } from "react-native";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useContext } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+import { AuthContext } from "../UseAuth";
 
 export default function RegisterScreen() {
-	// Setting up variables to handle data in form
-	const [name, setName] = useState("");
-	const [surName, setSurname] = useState("");
-	const [city, setCity] = useState("");
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-	const [rePassword, setrePassword] = useState("");
+	// Getting logging in function
+	const { login } = useContext(AuthContext);
+
+	// Setting up variable to handle data in form
+	const [form, setform] = useState({ name: "", surname: "", city: "", email: "", password: "", rePassword: "" });
+
+	// Setting up error state
+	const [error, setError] = useState(undefined);
 
 	// Adding fonts
 	const [fontsLoaded] = useFonts({
@@ -38,15 +40,40 @@ export default function RegisterScreen() {
 			{/* Register form */}
 			<View style={styles.formContainer}>
 				{/* Fields */}
-				<TextInput value={name} onChangeText={setName} placeholder="imię..." placeholderTextColor={"#00204750"} style={styles.input}></TextInput>
-				<TextInput value={surName} onChangeText={setSurname} placeholder="nazwisko..." placeholderTextColor={"#00204750"} style={styles.input}></TextInput>
-				<TextInput value={city} onChangeText={setCity} placeholder="miasto..." placeholderTextColor={"#00204750"} style={styles.input}></TextInput>
-				<TextInput value={email} onChangeText={setEmail} placeholder="email..." placeholderTextColor={"#00204750"} style={styles.input}></TextInput>
-				<TextInput value={password} onChangeText={setPassword} placeholder="hasło..." placeholderTextColor={"#00204750"} style={styles.input}></TextInput>
-				<TextInput value={rePassword} onChangeText={setrePassword} placeholder="powtórz hasło..." placeholderTextColor={"#00204750"} style={styles.input}></TextInput>
+				<TextInput value={form.name} onChangeText={(name) => setform({ ...form, name: name })} placeholder="imię..." placeholderTextColor={"#00204750"} style={styles.input}></TextInput>
+				<TextInput value={form.surname} onChangeText={(surname) => setform({ ...form, surname: surname })} placeholder="nazwisko..." placeholderTextColor={"#00204750"} style={styles.input}></TextInput>
+				<TextInput value={form.city} onChangeText={(city) => setform({ ...form, city: city })} placeholder="miasto..." placeholderTextColor={"#00204750"} style={styles.input}></TextInput>
+				<TextInput value={form.email} onChangeText={(email) => setform({ ...form, email: email })} placeholder="email..." placeholderTextColor={"#00204750"} style={styles.input}></TextInput>
+				<TextInput
+					value={form.password}
+					onChangeText={(password) => {
+						setform({ ...form, password: password });
+						if (password === form.rePassword) setError(undefined);
+					}}
+					placeholder="hasło..."
+					placeholderTextColor={"#00204750"}
+					style={styles.input}
+				></TextInput>
+				<TextInput
+					value={form.rePassword}
+					onChangeText={(rePassword) => {
+						setform({ ...form, rePassword: rePassword });
+
+						// Checking if passwords are the same
+						if (form.password !== rePassword) {
+							setError("Hasła nie są takie same");
+						} else setError(undefined);
+					}}
+					placeholder="powtórz hasło..."
+					placeholderTextColor={"#00204750"}
+					style={styles.input}
+				></TextInput>
+
+				{/* Place to display error */}
+				{error ? <Text style={styles.errorText}>{error}</Text> : null}
 
 				{/* Register button */}
-				<TouchableOpacity style={styles.confirmButton}>
+				<TouchableOpacity onPress={login} style={styles.confirmButton}>
 					<Text style={styles.buttonText}>Zarejestruj się</Text>
 				</TouchableOpacity>
 			</View>
@@ -84,6 +111,12 @@ const styles = StyleSheet.create({
 		color: "#002047",
 		fontSize: 18,
 		fontFamily: "MavenPro_Regular",
+	},
+	errorText: {
+		textAlign: "left",
+		width: "80%",
+		marginTop: 5,
+		color: "#fe2926",
 	},
 	confirmButton: {
 		marginVertical: 12,

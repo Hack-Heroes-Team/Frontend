@@ -2,13 +2,17 @@ import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, TextInput, Stat
 import React, { useState, useCallback, useContext } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { AuthContext } from "./auth/UseAuth";
+import { AuthContext } from "../UseAuth";
 export default function LoginScreen() {
+	// Getting logging in function
 	const { login } = useContext(AuthContext);
 
-	// Setting up variables to handle data in form
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
+	// Setting up variable to handle data in form
+	const [form, setForm] = useState({ email: "", password: "" });
+
+	// Setting up error state
+	// If logging in failed change to 'true' and show error text
+	const [error, setError] = useState(false);
 
 	// Adding fonts
 	const [fontsLoaded] = useFonts({
@@ -37,8 +41,11 @@ export default function LoginScreen() {
 			{/* Login form */}
 			<View style={styles.formContainer}>
 				{/* Fields */}
-				<TextInput value={email} onChangeText={setEmail} style={styles.input} placeholder="email..." placeholderTextColor={"#00204750"}></TextInput>
-				<TextInput value={password} onChangeText={setPassword} style={styles.input} placeholder="hasło..." placeholderTextColor={"#00204750"}></TextInput>
+				<TextInput value={form.email} onChangeText={(email) => setForm({ ...form.password, email: email })} style={styles.input} placeholder="email..." placeholderTextColor={"#00204750"}></TextInput>
+				<TextInput value={form.password} onChangeText={(password) => setForm({ ...form, password: password })} style={styles.input} placeholder="hasło..." placeholderTextColor={"#00204750"}></TextInput>
+
+				{/* If credentials are wrong */}
+				{error ? <Text style={styles.errorText}>Niepoprawny login lub hasło.</Text> : null}
 
 				{/* Login button */}
 				<TouchableOpacity onPress={login} style={styles.confirmButton}>
@@ -79,6 +86,12 @@ const styles = StyleSheet.create({
 		color: "#002047",
 		fontSize: 18,
 		fontFamily: "MavenPro_Regular",
+	},
+	errorText: {
+		textAlign: "left",
+		width: "80%",
+		marginTop: 5,
+		color: "#fe2926",
 	},
 	confirmButton: {
 		marginVertical: 12,

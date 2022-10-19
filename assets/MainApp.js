@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Button } from "react-native";
 
 // Importing screens
 import Main from "./pages/Main";
@@ -10,7 +11,7 @@ import ShopScreen from "./pages/ShopScreen";
 import Start from "./pages/Start";
 import LoginScreen from "./pages/LoginScreen";
 import RegisterScreen from "./pages/RegisterScreen";
-import { AuthContext } from "./pages/auth/UseAuth";
+import { AuthContext } from "./UseAuth";
 
 export default function MainApp() {
 	const Stack = createNativeStackNavigator();
@@ -65,20 +66,7 @@ export default function MainApp() {
 					/>
 
 					{/* Adding receipe with form */}
-					<Stack.Screen
-						name="AddingReceiptForm"
-						component={AddingReceiptForm}
-						options={{
-							headerStyle: {
-								backgroundColor: "#002047",
-							},
-							headerTitleStyle: {
-								fontWeight: "bold",
-							},
-							headerTintColor: "#fff",
-							title: "Dodaj nowy pargon",
-						}}
-					/>
+					<Stack.Screen name="AddingReceiptForm" component={AddingReceiptForm} />
 				</Stack.Group>
 			) : (
 				// If user isn't logged in

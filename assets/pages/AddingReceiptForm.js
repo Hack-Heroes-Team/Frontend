@@ -1,8 +1,24 @@
-import { StyleSheet, TouchableOpacity } from "react-native";
-import { useState } from "react";
+import { StyleSheet, TouchableOpacity, Button } from "react-native";
+import React, { useState, useLayoutEffect } from "react";
 import Icon from "react-native-vector-icons/Entypo";
 
 export default function AddingReceiptForm({ navigation }) {
+	// Setting up navbar settings
+	useLayoutEffect(() => {
+		navigation.setOptions({
+			headerLeft: () => <Button onPress={() => navigation.navigate("Main")} title="Anuluj" color="#fff" />,
+
+			headerStyle: {
+				backgroundColor: "#002047",
+			},
+			headerTitleStyle: {
+				fontWeight: "bold",
+			},
+			headerTintColor: "#fff",
+			title: "Dodaj nowy pargon",
+		});
+	});
+
 	return (
 		<>
 			{/* Go to adding receipe by camera window */}

@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 // Importing screen
 import MainApp from "./assets/MainApp";
-import { AuthProvider } from "./assets/pages/auth/UseAuth";
+import { AuthProvider } from "./assets/UseAuth";
 
 export default function App() {
 	const Stack = createNativeStackNavigator();

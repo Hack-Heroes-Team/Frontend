@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import React, { useContext } from "react";
-import { AuthContext } from "./auth/UseAuth";
+import { AuthContext } from "../UseAuth";
 
 export default function Settings() {
 	const { logout } = useContext(AuthContext);
