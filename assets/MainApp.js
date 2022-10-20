@@ -38,7 +38,7 @@ export default function MainApp() {
 							headerTitleStyle: {
 								fontWeight: "bold",
 							},
-							title: "Konto",
+							title: "Ustawienia",
 							headerTintColor: "#fff",
 						}}
 					/>

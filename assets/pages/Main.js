@@ -43,7 +43,7 @@ function TopBar({ navigation }) {
 
 				{/* User and app setting */}
 				<TouchableOpacity onPress={() => navigation.navigate("Settings")}>
-					<Image source={require("../person-icon.png")} style={styles.userIcon} />
+					<Icon style={styles.settingsIcon} name="cog" size={30} />
 				</TouchableOpacity>
 			</View>
 
@@ -75,12 +75,9 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		justifyContent: "space-evenly",
 	},
-	userIcon: {
-		borderColor: "#fff",
-		borderWidth: 1,
-		width: 35,
-		height: 35,
-		borderRadius: 50,
+	settingsIcon: {
+		lineHeight: 35,
+		color: "#fff",
 	},
 	searchBar: {
 		backgroundColor: "#fff",
