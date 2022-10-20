@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Button } from "react-native";
 
 // Importing screens
 import Main from "./pages/Main";

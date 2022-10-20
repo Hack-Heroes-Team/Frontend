@@ -8,7 +8,7 @@ export default function Dashboard() {
 	// Adding font
 	const [fontsLoaded] = useFonts({
 		Lato_Black: require("../fonts/Lato-Bold.ttf"),
-		Montserrat_Black: require("../fonts/Montserrat-Bold.ttf"),
+		Montserrat_Bold: require("../fonts/Montserrat-Bold.ttf"),
 	});
 
 	// Waiting for font to load
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
 		color: "#002047",
 	},
 	boxPrice: {
-		fontFamily: "Montserrat_Black",
+		fontFamily: "Montserrat_Bold",
 		color: "#fe2926",
 		fontSize: 30,
 	},

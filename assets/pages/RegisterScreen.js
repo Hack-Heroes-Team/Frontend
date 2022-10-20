@@ -40,10 +40,10 @@ export default function RegisterScreen() {
 			{/* Register form */}
 			<View style={styles.formContainer}>
 				{/* Fields */}
-				<TextInput value={form.name} onChangeText={(name) => setform({ ...form, name: name })} placeholder="imię..." placeholderTextColor={"#00204750"} style={styles.input}></TextInput>
-				<TextInput value={form.surname} onChangeText={(surname) => setform({ ...form, surname: surname })} placeholder="nazwisko..." placeholderTextColor={"#00204750"} style={styles.input}></TextInput>
-				<TextInput value={form.city} onChangeText={(city) => setform({ ...form, city: city })} placeholder="miasto..." placeholderTextColor={"#00204750"} style={styles.input}></TextInput>
-				<TextInput value={form.email} onChangeText={(email) => setform({ ...form, email: email })} placeholder="email..." placeholderTextColor={"#00204750"} style={styles.input}></TextInput>
+				<TextInput value={form.name} onChangeText={(name) => setform({ ...form, name: name })} placeholder="imię..." placeholderTextColor={"#00204750"} style={styles.input} />
+				<TextInput value={form.surname} onChangeText={(surname) => setform({ ...form, surname: surname })} placeholder="nazwisko..." placeholderTextColor={"#00204750"} style={styles.input} />
+				<TextInput value={form.city} onChangeText={(city) => setform({ ...form, city: city })} placeholder="miasto..." placeholderTextColor={"#00204750"} style={styles.input} />
+				<TextInput value={form.email} onChangeText={(email) => setform({ ...form, email: email })} placeholder="email..." placeholderTextColor={"#00204750"} style={styles.input} />
 				<TextInput
 					value={form.password}
 					onChangeText={(password) => {
@@ -53,7 +53,7 @@ export default function RegisterScreen() {
 					placeholder="hasło..."
 					placeholderTextColor={"#00204750"}
 					style={styles.input}
-				></TextInput>
+				/>
 				<TextInput
 					value={form.rePassword}
 					onChangeText={(rePassword) => {
@@ -67,7 +67,7 @@ export default function RegisterScreen() {
 					placeholder="powtórz hasło..."
 					placeholderTextColor={"#00204750"}
 					style={styles.input}
-				></TextInput>
+				/>
 
 				{/* Place to display error */}
 				{error ? <Text style={styles.errorText}>{error}</Text> : null}
