@@ -44,8 +44,8 @@ const styles = StyleSheet.create({
 	view: { flex: 1, alignItems: "center" },
 	confirmButton: {
 		padding: 20,
-		borderTopColor: "#002047",
-		borderTopWidth: 1,
+		borderBottomColor: "#002047",
+		borderBottomWidth: 1,
 		width: "100%",
 	},
 	buttonText: {

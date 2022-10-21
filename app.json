@@ -1,25 +1,36 @@
 {
-	"expo": {
-		"name": "Frontend",
-		"slug": "hack-heros",
-		"owner": "bartoszwiaderek",
-		"version": "1.0.0",
-		"orientation": "portrait",
-		"userInterfaceStyle": "dark",
-		"updates": {
-			"fallbackToCacheTimeout": 0
-		},
-		"assetBundlePatterns": ["**/*"],
-		"ios": {
-			"supportsTablet": true
-		},
-		"android": {
-			"adaptiveIcon": {
-				"backgroundColor": "#FFFFFF"
-			}
-		},
-		"web": {
-			"favicon": "./assets/favicon.png"
-		}
-	}
+  "expo": {
+    "name": "Frontend",
+    "slug": "hack-heros",
+    "owner": "bartoszwiaderek",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "updates": {
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/e1bffe29-cb2d-4d35-b8f1-8d07b75e20b4"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#FFFFFF"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e1bffe29-cb2d-4d35-b8f1-8d07b75e20b4"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    }
+  }
 }

@@ -5,7 +5,7 @@ import * as SplashScreen from "expo-splash-screen";
 import Icon from "react-native-vector-icons/Entypo";
 
 export default function Dashboard() {
-	// Adding font
+	// Adding fonts
 	const [fontsLoaded] = useFonts({
 		Lato_Black: require("../fonts/Lato-Bold.ttf"),
 		Montserrat_Bold: require("../fonts/Montserrat-Bold.ttf"),

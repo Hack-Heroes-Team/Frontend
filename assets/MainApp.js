@@ -52,6 +52,7 @@ export default function MainApp() {
 							headerTitleStyle: {
 								fontWeight: "bold",
 							},
+							headerShown: false,
 						}}
 					/>
 

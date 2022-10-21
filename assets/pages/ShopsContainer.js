@@ -1,13 +1,37 @@
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import React, { useCallback } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import Icon from "react-native-vector-icons/Entypo";
 import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
 
 export default function ShopsContainer({ navigation }) {
+	const [shops, setShops] = useState([]);
+
+	useEffect(() => {
+		const shopsData = [
+			{
+				id: 1,
+				name: "Biedronka",
+				adress: "Warszawska 62, Kraków",
+				avgPrice: "48.99",
+				trend: "up",
+				products: [
+					{ productName: "Ziemniaki", price: "3.50" },
+					{ productName: "Sos słodki", price: "10.70" },
+					{ productName: "Sos kwaśny", price: "9.99" },
+				],
+			},
+			{ id: 2, name: "Lidl", adress: "Długa 20, Kraków", avgPrice: "54.23", trend: "down", products: [{ productName: "Grzyby", price: "3.29" }] },
+			{ id: 3, name: "Biedronka", adress: "Prosta 33, Kraków", avgPrice: "32.23", trend: "up", products: [{ productName: "Sos", price: "4.29" }] },
+		];
+
+		setShops(shopsData.sort((a, b) => a.avgPrice.localeCompare(b.avgPrice)));
+	}, []);
+
 	// Adding font
 	const [fontsLoaded] = useFonts({
 		Lato_Black: require("../fonts/Lato-Black.ttf"),
+		Montserrat_Regular: require("../fonts/Montserrat-Regular.ttf"),
 	});
 
 	// Waiting for fonts to load
@@ -20,6 +44,8 @@ export default function ShopsContainer({ navigation }) {
 		return null;
 	}
 
+	let i = 0;
+
 	return (
 		<View style={{ padding: 25, backgroundColor: "#f9f9ff" }}>
 			{/* Box with title and shops */}
@@ -28,28 +54,21 @@ export default function ShopsContainer({ navigation }) {
 				<Text style={styles.title}>Najniższe ceny w okolicy:</Text>
 
 				{/* Shops */}
-
-				<TouchableWithoutFeedback onPress={() => navigation.navigate("ShopScreen", { name: "Biedronka" })}>
-					<View style={styles.shopBox}>
-						<Text style={styles.shopPossitonNum}>1.</Text>
-						<View style={{ marginRight: 30 }}>
-							<Text style={styles.shopName}>Biedronka</Text>
-							<Text style={styles.shopAddress}>Warszawska 62, Kraków</Text>
-						</View>
-						<Icon name="triangle-down" style={{ color: "#EF094A", ...styles.triangleIcon }} size={40} />
-					</View>
-				</TouchableWithoutFeedback>
-
-				<TouchableWithoutFeedback onPress={() => navigation.navigate("ShopScreen", { name: "Lidl" })}>
-					<View style={styles.shopBox}>
-						<Text style={styles.shopPossitonNum}>2.</Text>
-						<View style={{ marginRight: 30 }}>
-							<Text style={styles.shopName}>Lidl</Text>
-							<Text style={styles.shopAddress}>Długa 20, Kraków</Text>
-						</View>
-						<Icon name="triangle-up" style={{ color: "#4FE3B4", ...styles.triangleIcon }} size={40} />
-					</View>
-				</TouchableWithoutFeedback>
+				{shops.map((shop) => {
+					i += 1;
+					return (
+						<TouchableWithoutFeedback key={shop.id} onPress={() => navigation.navigate("ShopScreen", { props: shop })}>
+							<View style={styles.shopBox}>
+								<Text style={styles.shopPossitonNum}>{i + "."}</Text>
+								<View style={{ marginRight: 30 }}>
+									<Text style={styles.shopName}>{shop.name}</Text>
+									<Text style={styles.shopAddress}>{shop.adress}</Text>
+								</View>
+								<Icon name={"triangle-" + shop.trend} style={{ color: shop.trend === "up" ? "#4FE3B4" : "#EF094A", ...styles.triangleIcon }} size={40} />
+							</View>
+						</TouchableWithoutFeedback>
+					);
+				})}
 			</View>
 		</View>
 	);
