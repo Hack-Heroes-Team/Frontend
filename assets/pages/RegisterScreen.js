@@ -3,6 +3,7 @@ import React, { useState, useCallback, useContext } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { AuthContext } from "../UseAuth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function RegisterScreen() {
 	// Getting logging in function
@@ -30,6 +31,30 @@ export default function RegisterScreen() {
 	if (!fontsLoaded) {
 		return null;
 	}
+
+	// Trying to loggin user
+	const handleRegister = async () => {
+		if (password === rePassword) {
+			const requestOptions = {
+				method: "POST",
+				body: JSON.stringify({
+					mail: form.email,
+					password: form.password,
+					name: form.name,
+					surname: form.surname,
+				}),
+			};
+
+			const response = await (await fetch("https://hack-heroes-back.herokuapp.com/register", requestOptions)).json();
+
+			if (response.registered) {
+				await AsyncStorage.setItem("@loggedIn", form.email);
+				login();
+			} else {
+				setError("Istnieje już użytkownik o podanym adresie e-mail");
+			}
+		}
+	};
 
 	return (
 		<SafeAreaView style={styles.view}>
@@ -73,7 +98,7 @@ export default function RegisterScreen() {
 				{error ? <Text style={styles.errorText}>{error}</Text> : null}
 
 				{/* Register button */}
-				<TouchableOpacity onPress={login} style={styles.confirmButton}>
+				<TouchableOpacity onPress={handleRegister} style={styles.confirmButton}>
 					<Text style={styles.buttonText}>Zarejestruj się</Text>
 				</TouchableOpacity>
 			</View>

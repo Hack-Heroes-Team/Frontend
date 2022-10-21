@@ -3,6 +3,8 @@ import React, { useState, useCallback, useContext } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { AuthContext } from "../UseAuth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 export default function LoginScreen() {
 	// Getting logging in function
 	const { login } = useContext(AuthContext);
@@ -31,6 +33,21 @@ export default function LoginScreen() {
 		return null;
 	}
 
+	// Trying to loggin user
+	const handleLogin = async () => {
+		const requestOptions = {
+			method: "POST",
+			body: JSON.stringify({ mail: form.email, password: form.password }),
+		};
+		const response = await (await fetch("https://hack-heroes-back.herokuapp.com/login", requestOptions)).json();
+		if (response.authorized) {
+			await AsyncStorage.setItem("@loggedIn", form.email);
+			login();
+		} else {
+			setError("Istnieje już użytkownik o podanym adresie e-mail");
+		}
+	};
+
 	return (
 		<SafeAreaView style={styles.view}>
 			<StatusBar barStyle={"dark-content"} />
@@ -48,7 +65,7 @@ export default function LoginScreen() {
 				{error ? <Text style={styles.errorText}>Niepoprawny login lub hasło.</Text> : null}
 
 				{/* Login button */}
-				<TouchableOpacity onPress={login} style={styles.confirmButton}>
+				<TouchableOpacity onPress={handleLogin} style={styles.confirmButton}>
 					<Text style={styles.buttonText}>Zaloguj się</Text>
 				</TouchableOpacity>
 			</View>
