@@ -6,7 +6,7 @@ import { AuthContext } from "../UseAuth";
 
 export default function Dashboard() {
 	// Getting email from context
-	const { email } = useContext(AuthContext);
+	const { email, city } = useContext(AuthContext);
 
 	const [dashboard, setDashboard] = useState({ avgReceiptPriceNearby: "---", avgReceiptPrice: "---", lastReceipt: "---" });
 
@@ -15,17 +15,16 @@ export default function Dashboard() {
 			const requestOptions = {
 				method: "POST",
 				body: JSON.stringify({
-					// owner: email,
-					owner: "abc@test.com",
-					shop: "Częstochowa",
+					owner: email,
+					city: city,
 				}),
 			};
 
-			const avgReceiptPrice = await (await fetch("https://hack-heroes-back.herokuapp.com/avgReceiptPrice", requestOptions)).json();
-			const lastReceipt = await (await fetch("https://hack-heroes-back.herokuapp.com/lastReceipt", requestOptions)).json();
-			const avgReceiptPriceNearby = await (await fetch("https://hack-heroes-back.herokuapp.com/avgReceiptPriceNearby", requestOptions)).json();
+			// const avgReceiptPrice = await (await fetch("https://hack-heroes-back.herokuapp.com/avgReceiptPrice", requestOptions)).json();
+			// const lastReceipt = await (await fetch("https://hack-heroes-back.herokuapp.com/lastReceipt", requestOptions)).json();
+			// const avgReceiptPriceNearby = await (await fetch("https://hack-heroes-back.herokuapp.com/avgReceiptPriceNearby", requestOptions)).json();
 
-			setDashboard({ avgReceiptPrice: avgReceiptPrice.Avg + "zł", lastReceipt: lastReceipt.receipt.Price + "zł", avgReceiptPriceNearby: avgReceiptPriceNearby.Avg + "zł" });
+			// setDashboard({ avgReceiptPrice: avgReceiptPrice.Avg + "zł", lastReceipt: lastReceipt.receipt.Price + "zł", avgReceiptPriceNearby: avgReceiptPriceNearby.Avg + "zł" });
 		};
 
 		getData();

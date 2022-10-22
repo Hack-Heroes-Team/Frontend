@@ -34,26 +34,30 @@ export default function RegisterScreen() {
 
 	// Trying to loggin user
 	const handleRegister = async () => {
-		if (password === rePassword) {
-			const requestOptions = {
-				method: "POST",
-				body: JSON.stringify({
-					mail: form.email,
-					password: form.password,
-					name: form.name,
-					surname: form.surname,
-				}),
-			};
+		if (form.name && form.city && form.email && form.surname && form.password && form.rePassword) {
+			if (form.password === form.rePassword) {
+				const requestOptions = {
+					method: "POST",
+					body: JSON.stringify({
+						mail: form.email,
+						password: form.rePassword,
+						name: form.name,
+						surname: form.surname,
+					}),
+				};
 
-			const response = await (await fetch("https://hack-heroes-back.herokuapp.com/register", requestOptions)).json();
+				const response = await (await fetch("https://hack-heroes-back.herokuapp.com/register", requestOptions)).json();
 
-			if (response.registered) {
-				await AsyncStorage.setItem("loggedIn", form.email);
-				login();
-			} else {
-				setError("Istnieje już użytkownik o podanym adresie e-mail");
+				console.log(response);
+
+				if (response.registered) {
+					await AsyncStorage.setItem("loggedIn", form.email);
+					login();
+				} else {
+					setError("Istnieje już użytkownik o podanym adresie e-mail");
+				}
 			}
-		}
+		} else setError("Uzupełnij wszystkie pola");
 	};
 
 	return (
@@ -68,8 +72,17 @@ export default function RegisterScreen() {
 				<TextInput value={form.name} onChangeText={(name) => setform({ ...form, name: name })} placeholder="imię..." placeholderTextColor={"#00204750"} style={styles.input} />
 				<TextInput value={form.surname} onChangeText={(surname) => setform({ ...form, surname: surname })} placeholder="nazwisko..." placeholderTextColor={"#00204750"} style={styles.input} />
 				<TextInput value={form.city} onChangeText={(city) => setform({ ...form, city: city })} placeholder="miasto..." placeholderTextColor={"#00204750"} style={styles.input} />
-				<TextInput value={form.email} onChangeText={(email) => setform({ ...form, email: email })} placeholder="email..." placeholderTextColor={"#00204750"} style={styles.input} />
 				<TextInput
+					autoCapitalize={"none"}
+					value={form.email}
+					onChangeText={(email) => setform({ ...form, email: email })}
+					placeholder="email..."
+					placeholderTextColor={"#00204750"}
+					style={styles.input}
+				/>
+				<TextInput
+					autoCapitalize={"none"}
+					secureTextEntry={true}
 					value={form.password}
 					onChangeText={(password) => {
 						setform({ ...form, password: password });
@@ -80,6 +93,8 @@ export default function RegisterScreen() {
 					style={styles.input}
 				/>
 				<TextInput
+					autoCapitalize={"none"}
+					secureTextEntry={true}
 					value={form.rePassword}
 					onChangeText={(rePassword) => {
 						setform({ ...form, rePassword: rePassword });

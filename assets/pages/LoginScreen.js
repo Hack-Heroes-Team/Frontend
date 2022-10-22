@@ -58,8 +58,23 @@ export default function LoginScreen() {
 			{/* Login form */}
 			<View style={styles.formContainer}>
 				{/* Fields */}
-				<TextInput value={form.email} onChangeText={(email) => setForm({ ...form.password, email: email })} style={styles.input} placeholder="email..." placeholderTextColor={"#00204750"} />
-				<TextInput value={form.password} onChangeText={(password) => setForm({ ...form, password: password })} style={styles.input} placeholder="hasło..." placeholderTextColor={"#00204750"} />
+				<TextInput
+					autoCapitalize={"none"}
+					value={form.email}
+					onChangeText={(email) => setForm({ ...form.password, email: email })}
+					style={styles.input}
+					placeholder="email..."
+					placeholderTextColor={"#00204750"}
+				/>
+				<TextInput
+					secureTextEntry={true}
+					autoCapitalize={"none"}
+					value={form.password}
+					onChangeText={(password) => setForm({ ...form, password: password })}
+					style={styles.input}
+					placeholder="hasło..."
+					placeholderTextColor={"#00204750"}
+				/>
 
 				{/* If credentials are wrong */}
 				{error ? <Text style={styles.errorText}>Niepoprawny login lub hasło.</Text> : null}

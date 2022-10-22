@@ -25,11 +25,7 @@ export default function Settings() {
 
 	return (
 		<View style={styles.view}>
-			<TouchableOpacity onPress={null} style={styles.confirmButton}>
-				<Text style={styles.buttonText}>Historia paragonów</Text>
-			</TouchableOpacity>
-
-			<TouchableOpacity onPress={logout()} style={styles.confirmButton}>
+			<TouchableOpacity onPress={() => logout()} style={styles.confirmButton}>
 				<Text style={styles.buttonText}>Wyloguj się</Text>
 			</TouchableOpacity>
 			<TouchableOpacity onPress={null} style={styles.confirmButton}>

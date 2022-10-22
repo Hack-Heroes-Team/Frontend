@@ -4,16 +4,17 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import Icon from "react-native-vector-icons/Entypo";
 import { AuthContext } from "../UseAuth";
+import uuid from "react-native-uuid";
 
 export default function AddingReceiptForm({ navigation }) {
 	// Setting up form state
-	const [form, setForm] = useState({ receiptName: "", shopName: "", shopAddress: { street: "", number: "" } });
+	const [form, setForm] = useState({ id: uuid.v4(), receiptName: "", shopName: "", shopAddress: { street: "", number: "" } });
 
 	// Setting up state for data drom db
 	const [userReceipts, setUserReceipts] = useState();
 
 	// Getting email from context
-	const { email } = useContext(AuthContext);
+	const { email, city } = useContext(AuthContext);
 
 	// Setting up navbar settings
 	useLayoutEffect(() => {
@@ -32,13 +33,13 @@ export default function AddingReceiptForm({ navigation }) {
 	});
 
 	// Getting previous receipts from db
+
 	useEffect(() => {
 		const getData = async () => {
 			const requestOptions = {
 				method: "POST",
 				body: JSON.stringify({
-					// owner: email,
-					owner: "abc@test.com",
+					owner: email,
 				}),
 			};
 
@@ -52,22 +53,17 @@ export default function AddingReceiptForm({ navigation }) {
 		const requestOptions = {
 			method: "POST",
 			body: JSON.stringify({
-				id: userReceipts.lenght,
-				// Owner: email,
-				owner: "abc@test.com",
+				id: form.id,
+				owner: email,
 				place: form.shopName + " " + form.shopAddress.street + " " + form.shopAddress.number,
 				shop: form.shopName,
 				name: form.receiptName,
-				City: "Częstochowa",
-				date: "",
-				price: "",
+				City: city,
 			}),
 		};
+		// const newReceipe = await (await fetch("https://hack-heroes-back.herokuapp.com/addReceipt", requestOptions)).json();
 
-		const newReceipe = await (await fetch("https://hack-heroes-back.herokuapp.com/addReceipt", requestOptions)).json();
-		console.log(newReceipe);
-
-		// navigation.navigate("AddingItems", (id = userReceipts.lenght));
+		navigation.navigate("AddingItems", { id: form.id, shop: form.shopName, place: form.shopName + " " + form.shopAddress.street + " " + form.shopAddress.number });
 	};
 
 	const handleDelete = async (id) => {
@@ -79,6 +75,7 @@ export default function AddingReceiptForm({ navigation }) {
 		};
 
 		const deleteReceipt = await (await fetch("https://hack-heroes-back.herokuapp.com/deleteReceipt", requestOptions)).json();
+		getData();
 	};
 
 	// Adding fonts
@@ -137,11 +134,16 @@ export default function AddingReceiptForm({ navigation }) {
 					? userReceipts.map((receipt) => {
 							return (
 								<View style={styles.receiptBox} key={receipt.Id}>
-									<Text style={styles.receiptName}>{receipt.Shop}</Text>
+									<Text style={styles.receiptName}>
+										{receipt.Name}, {receipt.Shop}
+									</Text>
 									<Text>
 										{receipt.Place}, {receipt.City}
 									</Text>
-									<TouchableOpacity onPress={() => navigation.navigate("AddingItems", (id = receipt.Id))} style={{ ...styles.receiptIcon, right: 50 }}>
+									<TouchableOpacity
+										onPress={() => navigation.navigate("AddingItems", { id: receipt.Id, items: receipt.Items, place: receipt.Place })}
+										style={{ ...styles.receiptIcon, right: 50 }}
+									>
 										<Icon name="pencil" style={{ color: "#002047" }} size={25} />
 									</TouchableOpacity>
 									<TouchableOpacity onPress={() => handleDelete(receipt.Id)} style={{ ...styles.receiptIcon, right: 5 }}>
@@ -159,7 +161,7 @@ export default function AddingReceiptForm({ navigation }) {
 			</TouchableOpacity>
 
 			{/* Forward icon */}
-			<TouchableOpacity onPress={handleNewReceipt} style={{ ...styles.icon, right: 10 }}>
+			<TouchableOpacity onPress={() => handleNewReceipt()} style={{ ...styles.icon, right: 10 }}>
 				<Icon name="arrow-right" style={{ color: "#fff" }} size={30} />
 			</TouchableOpacity>
 		</View>

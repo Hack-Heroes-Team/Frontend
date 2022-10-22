@@ -8,6 +8,7 @@ export const AuthContext = createContext({
 export const AuthProvider = ({ children }) => {
 	const [loggedIn, setloggedIn] = useState(false);
 	const [email, setEmail] = useState("");
+	const [city, setCity] = useState("");
 
 	useEffect(() => {
 		const checkIfLoggedIn = async () => {
@@ -16,6 +17,8 @@ export const AuthProvider = ({ children }) => {
 			if (value !== null) {
 				setloggedIn(true);
 			}
+
+			setCity("Częstochowa");
 		};
 
 		checkIfLoggedIn();
@@ -31,8 +34,6 @@ export const AuthProvider = ({ children }) => {
 		setloggedIn(false);
 	};
 
-	const setCity = (city) => {};
-
 	return (
 		<AuthContext.Provider
 			value={{
@@ -40,6 +41,7 @@ export const AuthProvider = ({ children }) => {
 				login,
 				logout,
 				email,
+				city,
 			}}
 		>
 			{children}

@@ -1,13 +1,18 @@
 import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, Button } from "react-native";
-import React, { useState, useLayoutEffect, useCallback } from "react";
+import React, { useState, useLayoutEffect, useCallback, useContext } from "react";
 import Icon from "react-native-vector-icons/Entypo";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+import uuid from "react-native-uuid";
+import { AuthContext } from "../UseAuth";
 
-export default function AddingItems({ navigation }) {
+export default function AddingItems({ navigation, route }) {
 	// Setting up variable to handle data in form
 	const [form, setForm] = useState({ shop: "", shopAddress: "", products: [] });
-	const [tempItem, setTempItem] = useState({ name: "", price: "", error: false });
+	const [tempItem, setTempItem] = useState({ id: uuid.v4(), name: "", price: "", error: false });
+
+	// Getting email from context
+	const { email, city } = useContext(AuthContext);
 
 	// Setting up navbar settings
 	useLayoutEffect(() => {
@@ -42,11 +47,25 @@ export default function AddingItems({ navigation }) {
 	}
 
 	// Function handling adding new item to receipt
-	const handleNewItem = () => {
+	const handleNewItem = async () => {
 		if (tempItem.name && tempItem.price) {
-			setForm({ ...form, products: [...form.products, { key: form.products.length, name: tempItem.name, price: tempItem.price }] });
+			const requestOptions = {
+				method: "POST",
+				body: JSON.stringify({
+					id: tempItem.id,
+					ReceiptId: route.params.id,
+					owner: email,
+					place: route.params.place,
+					shop: route.params.shop,
+					name: tempItem.name,
+					City: city,
+					price: tempItem.price,
+				}),
+			};
 
-			setTempItem({ name: "", price: "", error: false });
+			// const newItem = await (await fetch("https://hack-heroes-back.herokuapp.com/addItem", requestOptions)).json();
+
+			setTempItem({ id: uuid.v4(), name: "", price: "", error: false });
 		} else setTempItem({ ...tempItem, error: true });
 	};
 
@@ -94,9 +113,7 @@ export default function AddingItems({ navigation }) {
 							<TouchableOpacity
 								style={styles.productDeleteBox}
 								onPress={() => {
-									let afterDelete = form.products.filter((item) => item != form.products.find((x) => x.key == product.key));
-
-									setForm({ ...form, products: afterDelete });
+									handleItemDelete();
 								}}
 							>
 								<Icon name="cross" style={{ color: "#fe2926" }} size={25} />
