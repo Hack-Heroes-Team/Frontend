@@ -6,6 +6,7 @@ import Main from "./pages/Main";
 import Settings from "./pages/Settings";
 import AddingReceiptCamera from "./pages/AddingReceiptCamera";
 import AddingReceiptForm from "./pages/AddingReceiptForm";
+import AddingItems from "./pages/AddingItems";
 import ShopScreen from "./pages/ShopScreen";
 import Start from "./pages/Start";
 import LoginScreen from "./pages/LoginScreen";
@@ -67,6 +68,8 @@ export default function MainApp() {
 
 					{/* Adding receipt with form */}
 					<Stack.Screen name="AddingReceiptForm" component={AddingReceiptForm} />
+					{/* Adding items to form */}
+					<Stack.Screen name="AddingItems" component={AddingItems} />
 				</Stack.Group>
 			) : (
 				// If user isn't logged in

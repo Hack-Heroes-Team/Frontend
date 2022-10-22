@@ -15,7 +15,8 @@ export default function Dashboard() {
 			const requestOptions = {
 				method: "POST",
 				body: JSON.stringify({
-					owner: email,
+					// owner: email,
+					owner: "abc@test.com",
 					shop: "Częstochowa",
 				}),
 			};

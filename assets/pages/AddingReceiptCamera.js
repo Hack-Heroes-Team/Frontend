@@ -51,14 +51,26 @@ export default function AddingReceiptCamera({ navigation }) {
 
 			{/* Go to manually adding receipt window */}
 			<TouchableOpacity onPress={() => navigation.push("AddingReceiptForm")} style={styles.addingManuallyIcon}>
-				<Icon name="new-message" style={{ color: "#fff" }} size={25} />
+				<Icon name="new-message" style={{ color: "#fff" }} size={30} />
 			</TouchableOpacity>
+
+			<Text style={styles.beta}>BETA</Text>
 		</Camera>
 	);
 }
 
 // Style sheet
 const styles = StyleSheet.create({
+	beta: {
+		position: "absolute",
+		color: "#fff",
+		backgroundColor: "#002047",
+		top: 75,
+		paddingVertical: 5,
+		paddingHorizontal: 12.5,
+		fontSize: 18,
+		fontWeight: "700",
+	},
 	view: {
 		flex: 1,
 	},

@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
 
 	useEffect(() => {
 		const checkIfLoggedIn = async () => {
-			const value = await AsyncStorage.getItem("user");
+			const value = await AsyncStorage.getItem("loggedIn");
 			setEmail(value);
 			if (value !== null) {
 				setloggedIn(true);
@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
 
 	// Logout updates the user data to default
 	const logout = async () => {
-		await AsyncStorage.removeItem("user");
+		await AsyncStorage.removeItem("loggedIn");
 		setloggedIn(false);
 	};
 

@@ -41,7 +41,7 @@ export default function LoginScreen() {
 		};
 		const response = await (await fetch("https://hack-heroes-back.herokuapp.com/login", requestOptions)).json();
 		if (response.authorized) {
-			await AsyncStorage.setItem("@loggedIn", form.email);
+			await AsyncStorage.setItem("loggedIn", form.email);
 			login();
 		} else {
 			setError("Istnieje już użytkownik o podanym adresie e-mail");

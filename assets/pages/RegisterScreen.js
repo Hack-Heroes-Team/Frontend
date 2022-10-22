@@ -48,7 +48,7 @@ export default function RegisterScreen() {
 			const response = await (await fetch("https://hack-heroes-back.herokuapp.com/register", requestOptions)).json();
 
 			if (response.registered) {
-				await AsyncStorage.setItem("@loggedIn", form.email);
+				await AsyncStorage.setItem("loggedIn", form.email);
 				login();
 			} else {
 				setError("Istnieje już użytkownik o podanym adresie e-mail");
