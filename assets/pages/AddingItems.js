@@ -1,15 +1,14 @@
 import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, Button } from "react-native";
-import React, { useState, useLayoutEffect, useCallback, useContext } from "react";
+import React, { useState, useLayoutEffect, useCallback, useContext, useEffect } from "react";
 import Icon from "react-native-vector-icons/Entypo";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import uuid from "react-native-uuid";
 import { AuthContext } from "../UseAuth";
 
 export default function AddingItems({ navigation, route }) {
 	// Setting up variable to handle data in form
-	const [form, setForm] = useState({ shop: "", shopAddress: "", products: [] });
-	const [tempItem, setTempItem] = useState({ id: uuid.v4(), name: "", price: "", error: false });
+	const [items, setItems] = useState();
+	const [tempItem, setTempItem] = useState({ name: "", price: "", error: false });
 
 	// Getting email from context
 	const { email, city } = useContext(AuthContext);
@@ -30,6 +29,44 @@ export default function AddingItems({ navigation, route }) {
 		});
 	});
 
+	// Getting previous receipts from db
+	const getData = async () => {
+		const requestOptions = {
+			method: "POST",
+			body: JSON.stringify({
+				place: route.params.place,
+			}),
+		};
+		const shopItems = await fetch("https://hack-heroes-back.herokuapp.com/priceForEveryItemInShop", requestOptions);
+		const data = await shopItems.json();
+		setItems(data);
+	};
+	useEffect(() => {
+		getData();
+	}, []);
+
+	// Function handling adding new item to receipt
+	const handleNewItem = async () => {
+		if (tempItem.name && tempItem.price) {
+			const requestOptions = {
+				method: "POST",
+				body: JSON.stringify({
+					receiptid: route.params.id,
+					owner: email,
+					place: route.params.place,
+					shop: route.params.shop,
+					name: tempItem.name,
+					price: parseInt(tempItem.price),
+					city: city,
+				}),
+			};
+			const newItem = await fetch("https://hack-heroes-back.herokuapp.com/addItem", requestOptions);
+			const data = newItem.json();
+			console.log(await data);
+			setTempItem({ name: "", price: "", error: false });
+		} else setTempItem({ ...tempItem, error: true });
+	};
+
 	// Adding fonts
 	const [fontsLoaded] = useFonts({
 		Ubuntu_Bold: require("../fonts/Ubuntu-Bold.ttf"),
@@ -45,29 +82,6 @@ export default function AddingItems({ navigation, route }) {
 	if (!fontsLoaded) {
 		return null;
 	}
-
-	// Function handling adding new item to receipt
-	const handleNewItem = async () => {
-		if (tempItem.name && tempItem.price) {
-			const requestOptions = {
-				method: "POST",
-				body: JSON.stringify({
-					id: tempItem.id,
-					ReceiptId: route.params.id,
-					owner: email,
-					place: route.params.place,
-					shop: route.params.shop,
-					name: tempItem.name,
-					City: city,
-					price: tempItem.price,
-				}),
-			};
-
-			const newItem = await fetch("https://hack-heroes-back.herokuapp.com/addItem", requestOptions);
-
-			setTempItem({ id: uuid.v4(), name: "", price: "", error: false });
-		} else setTempItem({ ...tempItem, error: true });
-	};
 
 	return (
 		<View style={{ backgroundColor: "#f9f9ff", flex: 1, paddingHorizontal: "5%" }}>
@@ -105,11 +119,11 @@ export default function AddingItems({ navigation, route }) {
 
 			{/* Displaying products on list */}
 			<ScrollView>
-				{form.products.map((product) => {
+				{/* {items.items.map((item) => {
 					return (
-						<View style={styles.productBox} key={product.key}>
-							<Text style={styles.productName}>- {product.name}</Text>
-							<Text style={styles.productPrice}>{product.price}zł</Text>
+						<View style={styles.productBox} key={item.key}>
+							<Text style={styles.productName}>- {item.name}</Text>
+							<Text style={styles.productPrice}>{item.price.toFixed(2)}zł</Text>
 							<TouchableOpacity
 								style={styles.productDeleteBox}
 								onPress={() => {
@@ -120,7 +134,7 @@ export default function AddingItems({ navigation, route }) {
 							</TouchableOpacity>
 						</View>
 					);
-				})}
+				})} */}
 			</ScrollView>
 
 			{/* Go to adding receipt by camera window */}

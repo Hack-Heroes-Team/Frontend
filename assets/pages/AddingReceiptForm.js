@@ -59,10 +59,12 @@ export default function AddingReceiptForm({ navigation }) {
 				shop: form.shopName,
 				name: form.receiptName,
 				city: city,
+				id: Math.floor(Math.random() * (100000 - 1) + 1),
 			}),
 		};
 		const newReceipe = await fetch("https://hack-heroes-back.herokuapp.com/addReceipt", requestOptions);
-		navigation.navigate("AddingItems", { shop: form.shopName, place: form.shopName + " " + form.shopAddress.street + " " + form.shopAddress.number });
+		const data = newReceipe.json();
+		navigation.navigate("AddingItems", { id: data.id, shop: form.shopName, place: form.shopName + " " + form.shopAddress.street + " " + form.shopAddress.number });
 	};
 
 	// Function handling deleting receipt
@@ -70,7 +72,7 @@ export default function AddingReceiptForm({ navigation }) {
 		const requestOptions = {
 			method: "POST",
 			body: JSON.stringify({
-				id: 0,
+				id: id,
 			}),
 		};
 

@@ -8,7 +8,7 @@ export default function Dashboard() {
 	// Getting email from context
 	const { email, city } = useContext(AuthContext);
 
-	const [dashboard, setDashboard] = useState({ avgReceiptPriceNearby: "---", avgReceiptPrice: "---", lastReceipt: "---" });
+	const [dashboard, setDashboard] = useState({ avgReceiptPriceNearby: "--.--", avgReceiptPrice: "--.--", lastReceipt: "--.--" });
 
 	useEffect(() => {
 		const getData = async () => {
@@ -25,7 +25,7 @@ export default function Dashboard() {
 			const avgReceiptPriceNearby = await fetch("https://hack-heroes-back.herokuapp.com/avgReceiptPriceNearby", requestOptions);
 			const data = [await avgReceiptPrice.json(), await lastReceipt.json(), await avgReceiptPriceNearby.json()];
 
-			setDashboard({ avgReceiptPrice: data[0].Avg + "zł", lastReceipt: data[1].receipt.Price + "zł", avgReceiptPriceNearby: data[2].Avg + "zł" });
+			setDashboard({ avgReceiptPrice: data[0].Avg.toFixed(2) + "zł", lastReceipt: data[1].receipt.Price.toFixed(2) + "zł", avgReceiptPriceNearby: data[2].Avg.toFixed(2) + "zł" });
 		};
 
 		getData();
