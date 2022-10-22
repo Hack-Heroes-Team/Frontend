@@ -19,8 +19,8 @@ export default function Main({ navigation }) {
 				<ShopsContainer navigation={navigation} />
 			</ScrollView>
 
-			{/* 'Add receipe' button  */}
-			<TouchableOpacity onPress={() => navigation.navigate("AddingReceiptCamera")} style={styles.addReceipeIcon}>
+			{/* 'Add receipt' button  */}
+			<TouchableOpacity onPress={() => navigation.navigate("AddingReceiptCamera")} style={styles.addReceiptIcon}>
 				<Icon name="plus" style={{ color: "#fff" }} size={50} />
 			</TouchableOpacity>
 		</View>
@@ -55,7 +55,7 @@ function TopBar({ navigation }) {
 
 // Style sheet
 const styles = StyleSheet.create({
-	addReceipeIcon: {
+	addReceiptIcon: {
 		backgroundColor: "#fe2926",
 		position: "absolute",
 		bottom: 25,

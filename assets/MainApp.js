@@ -56,7 +56,7 @@ export default function MainApp() {
 						}}
 					/>
 
-					{/* Adding receipe with camera */}
+					{/* Adding receipt with camera */}
 					<Stack.Screen
 						name="AddingReceiptCamera"
 						component={AddingReceiptCamera}
@@ -65,7 +65,7 @@ export default function MainApp() {
 						}}
 					/>
 
-					{/* Adding receipe with form */}
+					{/* Adding receipt with form */}
 					<Stack.Screen name="AddingReceiptForm" component={AddingReceiptForm} />
 				</Stack.Group>
 			) : (

@@ -49,7 +49,7 @@ export default function AddingReceiptCamera({ navigation }) {
 				<Icon name="camera" style={{ color: "#fff" }} size={40} />
 			</TouchableOpacity>
 
-			{/* Go to manually adding receipe window */}
+			{/* Go to manually adding receipt window */}
 			<TouchableOpacity onPress={() => navigation.push("AddingReceiptForm")} style={styles.addingManuallyIcon}>
 				<Icon name="new-message" style={{ color: "#fff" }} size={25} />
 			</TouchableOpacity>

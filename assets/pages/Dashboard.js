@@ -1,10 +1,35 @@
 import { ScrollView, View, Text, StyleSheet } from "react-native";
-import React, { useCallback } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import Icon from "react-native-vector-icons/Entypo";
+import { AuthContext } from "../UseAuth";
 
 export default function Dashboard() {
+	// Getting email from context
+	const { email } = useContext(AuthContext);
+
+	const [dashboard, setDashboard] = useState({ avgReceiptPriceNearby: "---", avgReceiptPrice: "---", lastReceipt: "---" });
+
+	useEffect(() => {
+		const getData = async () => {
+			const requestOptions = {
+				method: "POST",
+				body: JSON.stringify({
+					owner: email,
+					shop: "Częstochowa",
+				}),
+			};
+
+			const avgReceiptPrice = await (await fetch("https://hack-heroes-back.herokuapp.com/avgReceiptPrice", requestOptions)).json();
+			const lastReceipt = await (await fetch("https://hack-heroes-back.herokuapp.com/lastReceipt", requestOptions)).json();
+			const avgReceiptPriceNearby = await (await fetch("https://hack-heroes-back.herokuapp.com/avgReceiptPriceNearby", requestOptions)).json();
+
+			setDashboard({ avgReceiptPrice: avgReceiptPrice.Avg + "zł", lastReceipt: lastReceipt.receipt.Price + "zł", avgReceiptPriceNearby: avgReceiptPriceNearby.Avg + "zł" });
+		};
+
+		getData();
+	}, []);
+
 	// Adding fonts
 	const [fontsLoaded] = useFonts({
 		Lato_Black: require("../fonts/Lato-Bold.ttf"),
@@ -30,25 +55,22 @@ export default function Dashboard() {
 			<ScrollView horizontal="true" contentOffset={{ x: -15, y: 0 }} showsHorizontalScrollIndicator="false" style={styles.container} contentContainerStyle={{ flexDirection: "row" }}>
 				{/* Data */}
 
-				{/* Price of last receipe  */}
+				{/* Price of last receipt  */}
 				<View style={styles.box}>
 					<Text style={styles.boxTitle}>Cena ostatnich zakupów</Text>
-					<Text style={styles.boxPrice}>
-						50,32zł
-						<Icon name="triangle-down" style={{ color: "#4FE3B4" }} size={35} />
-					</Text>
+					<Text style={styles.boxPrice}>{dashboard.lastReceipt}</Text>
 				</View>
 
 				{/* User avg prices  */}
 				<View style={styles.box}>
 					<Text style={styles.boxTitle}>Średnia cena zakupów</Text>
-					<Text style={styles.boxPrice}>92,59zł</Text>
+					<Text style={styles.boxPrice}> {dashboard.avgReceiptPrice}</Text>
 				</View>
 
 				{/* Avg prices nearby */}
 				<View style={styles.box}>
 					<Text style={styles.boxTitle}>Cena zakupów w okolicy</Text>
-					<Text style={styles.boxPrice}>75,19zł</Text>
+					<Text style={styles.boxPrice}>{dashboard.avgReceiptPriceNearby}</Text>
 				</View>
 			</ScrollView>
 		</>

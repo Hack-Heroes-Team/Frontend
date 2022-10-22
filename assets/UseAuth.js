@@ -7,12 +7,18 @@ export const AuthContext = createContext({
 
 export const AuthProvider = ({ children }) => {
 	const [loggedIn, setloggedIn] = useState(false);
+	const [email, setEmail] = useState("");
 
-	useEffect(async () => {
-		const value = await AsyncStorage.getItem("@loggedIn");
-		if (value !== null) {
-			setloggedIn(true);
-		}
+	useEffect(() => {
+		const checkIfLoggedIn = async () => {
+			const value = await AsyncStorage.getItem("user");
+			setEmail(value);
+			if (value !== null) {
+				setloggedIn(true);
+			}
+		};
+
+		checkIfLoggedIn();
 	}, []);
 
 	const login = () => {
@@ -20,9 +26,12 @@ export const AuthProvider = ({ children }) => {
 	};
 
 	// Logout updates the user data to default
-	const logout = () => {
+	const logout = async () => {
+		await AsyncStorage.removeItem("user");
 		setloggedIn(false);
 	};
+
+	const setCity = (city) => {};
 
 	return (
 		<AuthContext.Provider
@@ -30,6 +39,7 @@ export const AuthProvider = ({ children }) => {
 				loggedIn,
 				login,
 				logout,
+				email,
 			}}
 		>
 			{children}

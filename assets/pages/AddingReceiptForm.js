@@ -42,7 +42,7 @@ export default function AddingReceiptForm({ navigation }) {
 		return null;
 	}
 
-	// Function handling adding new item to receipe
+	// Function handling adding new item to receipt
 	const handleNewItem = () => {
 		if (tempItem.name && tempItem.price) {
 			setForm({ ...form, products: [...form.products, { key: form.products.length, name: tempItem.name, price: tempItem.price }] });
@@ -76,11 +76,24 @@ export default function AddingReceiptForm({ navigation }) {
 			{/* Subtitle */}
 			<Text style={styles.subtitle}>Dodaj nowy produkt</Text>
 
-			{/* Adding new products to receipe */}
+			{/* Adding new products to receipt */}
 			<View style={styles.inputsContainer}>
 				{/* Form inputs */}
-				<TextInput value={tempItem.name} onChangeText={(name) => setTempItem({ ...tempItem, name: name })} style={styles.inputItem} placeholder="Nazwa produktu..." placeholderTextColor={"#00204750"} />
-				<TextInput keyboardType="numeric" value={tempItem.price} onChangeText={(price) => setTempItem({ ...tempItem, price: price })} style={styles.inputPrice} placeholder="Cena" placeholderTextColor={"#00204750"} />
+				<TextInput
+					value={tempItem.name}
+					onChangeText={(name) => setTempItem({ ...tempItem, name: name })}
+					style={styles.inputItem}
+					placeholder="Nazwa produktu..."
+					placeholderTextColor={"#00204750"}
+				/>
+				<TextInput
+					keyboardType="numeric"
+					value={tempItem.price}
+					onChangeText={(price) => setTempItem({ ...tempItem, price: price })}
+					style={styles.inputPrice}
+					placeholder="Cena"
+					placeholderTextColor={"#00204750"}
+				/>
 
 				{/* Confirm button */}
 				<TouchableOpacity style={styles.buttonConfirm} onPress={handleNewItem}>
@@ -116,7 +129,7 @@ export default function AddingReceiptForm({ navigation }) {
 				})}
 			</ScrollView>
 
-			{/* Go to adding receipe by camera window */}
+			{/* Go to adding receipt by camera window */}
 			<TouchableOpacity onPress={() => navigation.goBack()} style={styles.cameraIcon}>
 				<Icon name="camera" style={{ color: "#fff" }} size={25} />
 			</TouchableOpacity>

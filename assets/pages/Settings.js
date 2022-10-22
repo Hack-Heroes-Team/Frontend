@@ -3,7 +3,6 @@ import React, { useCallback, useContext } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { AuthContext } from "../UseAuth";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Settings() {
 	// Setting up logout function
@@ -30,13 +29,7 @@ export default function Settings() {
 				<Text style={styles.buttonText}>Historia paragonów</Text>
 			</TouchableOpacity>
 
-			<TouchableOpacity
-				onPress={async () => {
-					logout();
-					await AsyncStorage.setItem("@loggedIn", form.email);
-				}}
-				style={styles.confirmButton}
-			>
+			<TouchableOpacity onPress={logout()} style={styles.confirmButton}>
 				<Text style={styles.buttonText}>Wyloguj się</Text>
 			</TouchableOpacity>
 			<TouchableOpacity onPress={null} style={styles.confirmButton}>
