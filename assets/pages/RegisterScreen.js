@@ -113,7 +113,7 @@ export default function RegisterScreen() {
 				{error ? <Text style={styles.errorText}>{error}</Text> : null}
 
 				{/* Register button */}
-				<TouchableOpacity onPress={handleRegister} style={styles.confirmButton}>
+				<TouchableOpacity onPress={() => handleRegister()} style={styles.confirmButton}>
 					<Text style={styles.buttonText}>Zarejestruj się</Text>
 				</TouchableOpacity>
 			</View>

@@ -33,48 +33,49 @@ export default function AddingReceiptForm({ navigation }) {
 	});
 
 	// Getting previous receipts from db
-
-	useEffect(() => {
-		const getData = async () => {
-			const requestOptions = {
-				method: "POST",
-				body: JSON.stringify({
-					owner: email,
-				}),
-			};
-
-			const userReceipts = await (await fetch("https://hack-heroes-back.herokuapp.com/receiptsForUser", requestOptions)).json();
-			setUserReceipts(userReceipts.receipts);
+	const getData = async () => {
+		const requestOptions = {
+			method: "POST",
+			body: JSON.stringify({
+				owner: email,
+			}),
 		};
+		const userReceipts = await fetch("https://hack-heroes-back.herokuapp.com/receiptsForUser", requestOptions);
+		const data = await userReceipts.json();
+		data.receipts.reverse();
+		setUserReceipts(data.receipts);
+	};
+	useEffect(() => {
 		getData();
 	}, []);
 
+	// Function handling adding new receipt
 	const handleNewReceipt = async () => {
 		const requestOptions = {
 			method: "POST",
 			body: JSON.stringify({
-				id: form.id,
 				owner: email,
 				place: form.shopName + " " + form.shopAddress.street + " " + form.shopAddress.number,
 				shop: form.shopName,
 				name: form.receiptName,
-				City: city,
+				city: city,
 			}),
 		};
-		// const newReceipe = await (await fetch("https://hack-heroes-back.herokuapp.com/addReceipt", requestOptions)).json();
-
-		navigation.navigate("AddingItems", { id: form.id, shop: form.shopName, place: form.shopName + " " + form.shopAddress.street + " " + form.shopAddress.number });
+		const newReceipe = await fetch("https://hack-heroes-back.herokuapp.com/addReceipt", requestOptions);
+		navigation.navigate("AddingItems", { shop: form.shopName, place: form.shopName + " " + form.shopAddress.street + " " + form.shopAddress.number });
 	};
 
+	// Function handling deleting receipt
 	const handleDelete = async (id) => {
 		const requestOptions = {
 			method: "POST",
 			body: JSON.stringify({
-				id: id,
+				id: 0,
 			}),
 		};
 
-		const deleteReceipt = await (await fetch("https://hack-heroes-back.herokuapp.com/deleteReceipt", requestOptions)).json();
+		const deleteReceipt = await fetch("https://hack-heroes-back.herokuapp.com/deleteReceipt", requestOptions);
+
 		getData();
 	};
 
@@ -95,6 +96,7 @@ export default function AddingReceiptForm({ navigation }) {
 
 	return (
 		<View style={{ backgroundColor: "#f9f9ff", flex: 1, paddingHorizontal: "5%" }}>
+			{/* Receipt name */}
 			<TextInput
 				value={form.receiptName}
 				onChangeText={(value) => setForm({ ...form, receiptName: value })}
@@ -106,9 +108,12 @@ export default function AddingReceiptForm({ navigation }) {
 			{/* Subtitle */}
 			<Text style={styles.subtitle}>Sklep</Text>
 
+			{/* Form */}
 			<View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+				{/* Shop name */}
 				<TextInput value={form.shopName} onChangeText={(value) => setForm({ ...form, shopName: value })} style={styles.input} placeholder="Nazwa sklepu" placeholderTextColor={"#00204750"} />
 
+				{/* Street */}
 				<TextInput
 					value={form.shopAddress.street}
 					onChangeText={(value) => setForm({ ...form, shopAddress: { ...form.shopAddress, street: value } })}
@@ -116,6 +121,7 @@ export default function AddingReceiptForm({ navigation }) {
 					placeholder="Ulica"
 					placeholderTextColor={"#00204750"}
 				/>
+				{/* Number */}
 				<TextInput
 					keyboardType="numeric"
 					value={form.shopAddress.number}
@@ -129,11 +135,12 @@ export default function AddingReceiptForm({ navigation }) {
 			{/* Subtitle */}
 			<Text style={styles.subtitle}>Poprzednie paragony</Text>
 
+			{/* Receipts which are already in db */}
 			<ScrollView>
 				{userReceipts
 					? userReceipts.map((receipt) => {
 							return (
-								<View style={styles.receiptBox} key={receipt.Id}>
+								<View style={styles.receiptBox} key={uuid.v4()}>
 									<Text style={styles.receiptName}>
 										{receipt.Name}, {receipt.Shop}
 									</Text>

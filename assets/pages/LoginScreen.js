@@ -80,7 +80,7 @@ export default function LoginScreen() {
 				{error ? <Text style={styles.errorText}>Niepoprawny login lub hasło.</Text> : null}
 
 				{/* Login button */}
-				<TouchableOpacity onPress={handleLogin} style={styles.confirmButton}>
+				<TouchableOpacity onPress={() => handleLogin()} style={styles.confirmButton}>
 					<Text style={styles.buttonText}>Zaloguj się</Text>
 				</TouchableOpacity>
 			</View>

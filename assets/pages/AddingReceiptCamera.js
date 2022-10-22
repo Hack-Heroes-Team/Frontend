@@ -36,8 +36,7 @@ export default function AddingReceiptCamera({ navigation }) {
 		let newPhoto = await cameraRef.current.takePictureAsync(options);
 		setPhoto(newPhoto);
 
-		// Going back to menu
-		navigation.goBack();
+		navigation.navigate("AddingReceiptForm");
 	};
 
 	return (

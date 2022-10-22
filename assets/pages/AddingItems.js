@@ -63,7 +63,7 @@ export default function AddingItems({ navigation, route }) {
 				}),
 			};
 
-			// const newItem = await (await fetch("https://hack-heroes-back.herokuapp.com/addItem", requestOptions)).json();
+			const newItem = await fetch("https://hack-heroes-back.herokuapp.com/addItem", requestOptions);
 
 			setTempItem({ id: uuid.v4(), name: "", price: "", error: false });
 		} else setTempItem({ ...tempItem, error: true });
@@ -79,7 +79,7 @@ export default function AddingItems({ navigation, route }) {
 				<TextInput
 					value={tempItem.name}
 					onChangeText={(name) => setTempItem({ ...tempItem, name: name })}
-					style={styles.inputItem}
+					style={{ ...styles.input, width: "80%" }}
 					placeholder="Nazwa produktu..."
 					placeholderTextColor={"#00204750"}
 				/>
@@ -87,13 +87,13 @@ export default function AddingItems({ navigation, route }) {
 					keyboardType="numeric"
 					value={tempItem.price}
 					onChangeText={(price) => setTempItem({ ...tempItem, price: price })}
-					style={styles.inputPrice}
+					style={{ ...styles.input, textAlign: "center", width: "17.5%", marginStart: "2.5%" }}
 					placeholder="Cena"
 					placeholderTextColor={"#00204750"}
 				/>
 
 				{/* Confirm button */}
-				<TouchableOpacity style={styles.buttonConfirm} onPress={handleNewItem}>
+				<TouchableOpacity style={styles.buttonConfirm} onPress={() => handleNewItem()}>
 					<Text style={styles.buttonsText}>Dodaj nowy produkt</Text>
 				</TouchableOpacity>
 
@@ -124,12 +124,12 @@ export default function AddingItems({ navigation, route }) {
 			</ScrollView>
 
 			{/* Go to adding receipt by camera window */}
-			<TouchableOpacity onPress={() => navigation.goBack()} style={styles.backwardIcon}>
+			<TouchableOpacity onPress={() => navigation.goBack()} style={{ ...styles.icon, left: 10 }}>
 				<Icon name="arrow-left" style={{ color: "#fff" }} size={30} />
 			</TouchableOpacity>
 
 			{/* Check icon */}
-			<TouchableOpacity onPress={() => navigation.navigate("Main")} style={styles.iconCheck}>
+			<TouchableOpacity onPress={() => navigation.navigate("Main")} style={{ ...styles.icon, right: 10 }}>
 				<Icon name="check" style={{ color: "#fff" }} size={30} />
 			</TouchableOpacity>
 		</View>
@@ -137,19 +137,10 @@ export default function AddingItems({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
-	backwardIcon: {
+	icon: {
 		backgroundColor: "#002047",
 		position: "absolute",
 		bottom: 37.5,
-		left: 10,
-		padding: 15,
-		borderRadius: 50,
-	},
-	iconCheck: {
-		backgroundColor: "#fe2926",
-		position: "absolute",
-		bottom: 37.5,
-		right: 10,
 		padding: 15,
 		borderRadius: 50,
 	},
@@ -166,20 +157,9 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		flexWrap: "wrap",
 	},
-	inputItem: {
-		width: "80%",
+	input: {
 		marginTop: 20,
 		padding: 15,
-		borderColor: "#002047",
-		borderWidth: 2,
-		borderRadius: 12,
-	},
-	inputPrice: {
-		width: "17.5%",
-		marginStart: "2.5%",
-		marginTop: 20,
-		padding: 7.5,
-		textAlign: "center",
 		borderColor: "#002047",
 		borderWidth: 2,
 		borderRadius: 12,
