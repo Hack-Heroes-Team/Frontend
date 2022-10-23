@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
 	// Box styling
 	box: {
 		backgroundColor: "#fff",
-		borderRadius: 5,
+		borderRadius: 7.5,
 		width: 200,
 		height: 85,
 		margin: 7.5,

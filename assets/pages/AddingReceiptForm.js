@@ -4,11 +4,10 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import Icon from "react-native-vector-icons/Entypo";
 import { AuthContext } from "../UseAuth";
-import uuid from "react-native-uuid";
 
 export default function AddingReceiptForm({ navigation }) {
 	// Setting up form state
-	const [form, setForm] = useState({ id: uuid.v4(), receiptName: "", shopName: "", shopAddress: { street: "", number: "" } });
+	const [form, setForm] = useState({ id: "", receiptName: "", shopName: "", shopAddress: { street: "", number: "" } });
 
 	// Setting up state for data drom db
 	const [userReceipts, setUserReceipts] = useState();
@@ -59,7 +58,7 @@ export default function AddingReceiptForm({ navigation }) {
 				shop: form.shopName,
 				name: form.receiptName,
 				city: city,
-				id: Math.floor(Math.random() * (100000 - 1) + 1),
+				id: Math.floor(Math.random() * (1000000 - 1) + 1),
 			}),
 		};
 		const newReceipe = await fetch("https://hack-heroes-back.herokuapp.com/addReceipt", requestOptions);
@@ -142,7 +141,7 @@ export default function AddingReceiptForm({ navigation }) {
 				{userReceipts
 					? userReceipts.map((receipt) => {
 							return (
-								<View style={styles.receiptBox} key={uuid.v4()}>
+								<View style={styles.receiptBox} key={receipt.Id}>
 									<Text style={styles.receiptName}>
 										{receipt.Name}, {receipt.Shop}
 									</Text>
@@ -150,7 +149,7 @@ export default function AddingReceiptForm({ navigation }) {
 										{receipt.Place}, {receipt.City}
 									</Text>
 									<TouchableOpacity
-										onPress={() => navigation.navigate("AddingItems", { id: receipt.Id, items: receipt.Items, place: receipt.Place })}
+										onPress={() => navigation.navigate("AddingItems", { id: receipt.Id, place: receipt.Place, shop: receipt.Shop })}
 										style={{ ...styles.receiptIcon, right: 50 }}
 									>
 										<Icon name="pencil" style={{ color: "#002047" }} size={25} />

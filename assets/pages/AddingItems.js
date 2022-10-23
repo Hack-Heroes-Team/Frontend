@@ -7,7 +7,7 @@ import { AuthContext } from "../UseAuth";
 
 export default function AddingItems({ navigation, route }) {
 	// Setting up variable to handle data in form
-	const [items, setItems] = useState();
+	const [items, setItems] = useState([]);
 	const [tempItem, setTempItem] = useState({ name: "", price: "", error: false });
 
 	// Getting email from context
@@ -39,7 +39,8 @@ export default function AddingItems({ navigation, route }) {
 		};
 		const shopItems = await fetch("https://hack-heroes-back.herokuapp.com/priceForEveryItemInShop", requestOptions);
 		const data = await shopItems.json();
-		setItems(data);
+
+		console.log(data);
 	};
 	useEffect(() => {
 		getData();
@@ -48,23 +49,31 @@ export default function AddingItems({ navigation, route }) {
 	// Function handling adding new item to receipt
 	const handleNewItem = async () => {
 		if (tempItem.name && tempItem.price) {
-			const requestOptions = {
-				method: "POST",
-				body: JSON.stringify({
-					receiptid: route.params.id,
-					owner: email,
-					place: route.params.place,
-					shop: route.params.shop,
-					name: tempItem.name,
-					price: parseInt(tempItem.price),
-					city: city,
-				}),
-			};
-			const newItem = await fetch("https://hack-heroes-back.herokuapp.com/addItem", requestOptions);
-			const data = newItem.json();
-			console.log(await data);
+			setItems([
+				...items,
+				{
+					Receiptid: route.params.id,
+					Owner: email,
+					Place: route.params.place,
+					Shop: route.params.shop,
+					City: city,
+					Id: Math.floor(Math.random() * (1000000 - 1) + 1),
+					Name: tempItem.name,
+					Price: parseFloat(tempItem.price),
+				},
+			]);
 			setTempItem({ name: "", price: "", error: false });
 		} else setTempItem({ ...tempItem, error: true });
+	};
+
+	const handleItemsToDb = async () => {
+		const requestOptions = {
+			method: "POST",
+			body: JSON.stringify(items),
+		};
+		const newItems = await fetch("https://hack-heroes-back.herokuapp.com/addItem", requestOptions);
+		console.log(items);
+		navigation.navigate("Main");
 	};
 
 	// Adding fonts
@@ -119,22 +128,23 @@ export default function AddingItems({ navigation, route }) {
 
 			{/* Displaying products on list */}
 			<ScrollView>
-				{/* {items.items.map((item) => {
+				{items.map((item) => {
 					return (
-						<View style={styles.productBox} key={item.key}>
+						<View style={styles.productBox} key={item.id}>
 							<Text style={styles.productName}>- {item.name}</Text>
-							<Text style={styles.productPrice}>{item.price.toFixed(2)}zł</Text>
+							<Text style={styles.productPrice}>{parseFloat(item.price).toFixed(2)}zł</Text>
 							<TouchableOpacity
 								style={styles.productDeleteBox}
 								onPress={() => {
-									handleItemDelete();
+									let afterDelete = items.filter((product) => product.id != item.id);
+									setItems(afterDelete);
 								}}
 							>
 								<Icon name="cross" style={{ color: "#fe2926" }} size={25} />
 							</TouchableOpacity>
 						</View>
 					);
-				})} */}
+				})}
 			</ScrollView>
 
 			{/* Go to adding receipt by camera window */}
@@ -143,7 +153,7 @@ export default function AddingItems({ navigation, route }) {
 			</TouchableOpacity>
 
 			{/* Check icon */}
-			<TouchableOpacity onPress={() => navigation.navigate("Main")} style={{ ...styles.icon, right: 10 }}>
+			<TouchableOpacity onPress={() => handleItemsToDb()} style={{ ...styles.icon, right: 10 }}>
 				<Icon name="check" style={{ color: "#fff" }} size={30} />
 			</TouchableOpacity>
 		</View>

@@ -16,8 +16,8 @@ export default function ShopsContainer({ navigation }) {
 				avgPrice: "48.99",
 				trend: "up",
 				products: [
-					{ productName: "Ziemniaki", price: "3.50" },
-					{ productName: "Sos słodki", price: "10.70" },
+					{ productName: "Ziemniaki", price: "3.5" },
+					{ productName: "Sos słodki", price: "10.2" },
 					{ productName: "Sos kwaśny", price: "9.99" },
 				],
 			},
