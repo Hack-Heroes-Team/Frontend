@@ -4,41 +4,42 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { AuthContext } from "../UseAuth";
 
-export default function Dashboard() {
+export default function Dashboard({ reload }) {
 	// Getting email from context
 	const { email, city } = useContext(AuthContext);
 
 	// Setting up dashboard variables, setting value to "--.--"
 	const [dashboard, setDashboard] = useState({ avgReceiptPriceNearby: "--.--", avgReceiptPrice: "--.--", lastReceipt: "--.--" });
 
-	// On load
-	useEffect(() => {
-		const getData = async () => {
-			const requestOptions = {
-				method: "POST",
-				body: JSON.stringify({
-					owner: email,
-					city: city,
-				}),
-			};
-
-			// Last receipt
-			const lastReceipt = await fetch("https://hack-heroes-back.herokuapp.com/lastReceipt", requestOptions);
-			const dataLast = await lastReceipt.json();
-
-			// Avg receipt price
-			const avgReceiptPrice = await fetch("https://hack-heroes-back.herokuapp.com/avgReceiptPrice", requestOptions);
-			const dataAvg = await avgReceiptPrice.json();
-
-			// Avg receipt nearby
-			const avgReceiptPriceNearby = await fetch("https://hack-heroes-back.herokuapp.com/avgReceiptPriceNearby", requestOptions);
-			const dataNearby = await avgReceiptPriceNearby.json();
-
-			// Setting dashboard variables
-			setDashboard({ lastReceipt: dataLast.receipt.Price.toFixed(2) + "zł", avgReceiptPrice: dataAvg.Avg.toFixed(2) + "zł", avgReceiptPriceNearby: dataNearby.Avg.toFixed(2) + "zł" });
+	// Getting data
+	const getData = async () => {
+		const requestOptions = {
+			method: "POST",
+			body: JSON.stringify({
+				owner: email,
+				city: city,
+			}),
 		};
 
+		// Last receipt
+		const lastReceipt = await fetch("https://hack-heroes-back.herokuapp.com/lastReceipt", requestOptions);
+		const dataLast = await lastReceipt.json();
+
+		// Avg receipt price
+		const avgReceiptPrice = await fetch("https://hack-heroes-back.herokuapp.com/avgReceiptPrice", requestOptions);
+		const dataAvg = await avgReceiptPrice.json();
+
+		// Avg receipt nearby
+		const avgReceiptPriceNearby = await fetch("https://hack-heroes-back.herokuapp.com/avgReceiptPriceNearby", requestOptions);
+		const dataNearby = await avgReceiptPriceNearby.json();
+
+		// Setting dashboard variables
+		setDashboard({ lastReceipt: dataLast.receipt.Price.toFixed(2) + "zł", avgReceiptPrice: dataAvg.Avg.toFixed(2) + "zł", avgReceiptPriceNearby: dataNearby.Avg.toFixed(2) + "zł" });
+	};
+	// On load trigger
+	useEffect(() => {
 		getData();
+		reload.current = getData;
 	}, []);
 
 	// Adding fonts

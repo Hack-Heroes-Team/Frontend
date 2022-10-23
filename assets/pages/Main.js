@@ -8,6 +8,15 @@ import Dashboard from "./Dashboard";
 
 // Main view of app
 export default function Main({ navigation }) {
+	// Reloading on load
+	const reload = React.useRef(null);
+	useEffect(() => {
+		const focusHandler = navigation.addListener("focus", () => {
+			reload.current();
+		});
+		return focusHandler;
+	}, [navigation]);
+
 	return (
 		<View style={{ flex: 1 }}>
 			{/* Scrollable part of view */}
@@ -16,7 +25,7 @@ export default function Main({ navigation }) {
 				<TopBar navigation={navigation} />
 
 				{/* Adding ShopContainer component (from imports) */}
-				<ShopsContainer navigation={navigation} />
+				<ShopsContainer navigation={navigation} reload={reload} />
 			</ScrollView>
 
 			{/* 'Add receipt' button  */}
@@ -31,6 +40,15 @@ export default function Main({ navigation }) {
 function TopBar({ navigation }) {
 	// Setting up variable to handle data in search bar
 	const [search, onChangeSearch] = useState("");
+
+	// Reloading on load
+	const reload = React.useRef(null);
+	useEffect(() => {
+		const focusHandler = navigation.addListener("focus", () => {
+			reload.current();
+		});
+		return focusHandler;
+	}, [navigation]);
 
 	return (
 		<SafeAreaView style={styles.topBar}>
@@ -48,7 +66,7 @@ function TopBar({ navigation }) {
 			</View>
 
 			{/* Adding ShopContainer componetn (from imports) */}
-			<Dashboard />
+			<Dashboard reload={reload} />
 		</SafeAreaView>
 	);
 }

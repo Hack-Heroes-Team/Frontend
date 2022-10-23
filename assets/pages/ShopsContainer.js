@@ -4,7 +4,7 @@ import React, { useCallback, useState, useEffect, useContext } from "react";
 import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
 import { AuthContext } from "../UseAuth";
 
-export default function ShopsContainer({ navigation }) {
+export default function ShopsContainer({ navigation, reload }) {
 	const [shops, setShops] = useState([]);
 
 	// Getting email from context
@@ -25,6 +25,7 @@ export default function ShopsContainer({ navigation }) {
 	};
 	useEffect(() => {
 		getData();
+		reload.current = getData;
 	}, []);
 
 	// Adding font
