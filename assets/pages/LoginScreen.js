@@ -39,12 +39,17 @@ export default function LoginScreen() {
 			method: "POST",
 			body: JSON.stringify({ mail: form.email, password: form.password }),
 		};
-		const response = await (await fetch("https://hack-heroes-back.herokuapp.com/login", requestOptions)).json();
-		if (response.authorized) {
-			await AsyncStorage.setItem("loggedIn", form.email);
+		const response = await fetch("https://hack-heroes-back.herokuapp.com/login", requestOptions);
+		const data = await response.json();
+
+		console.log(data);
+
+		if (data.authorized) {
+			await AsyncStorage.setItem("email", form.email);
+			await AsyncStorage.setItem("city", "Częstochowa");
 			login();
 		} else {
-			setError("Istnieje już użytkownik o podanym adresie e-mail");
+			setError(true);
 		}
 	};
 

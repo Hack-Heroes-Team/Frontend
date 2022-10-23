@@ -63,7 +63,8 @@ export default function AddingReceiptForm({ navigation }) {
 					shop: form.shopName,
 					name: form.receiptName,
 					city: city,
-					id: Math.floor(Math.random() * (1000000 - 1) + 1),
+					street: form.shopAddress.street,
+					number: parseFloat(form.shopAddress.number),
 				}),
 			};
 			const newReceipe = await fetch("https://hack-heroes-back.herokuapp.com/addReceipt", requestOptions);
@@ -147,16 +148,17 @@ export default function AddingReceiptForm({ navigation }) {
 			<ScrollView>
 				{userReceipts
 					? userReceipts.map((receipt) => {
+							console.log(receipt);
 							return (
 								<View style={styles.receiptBox} key={receipt.Id}>
 									<Text style={styles.receiptName}>
 										{receipt.Name}, {receipt.Shop}
 									</Text>
 									<Text>
-										{receipt.Place}, {receipt.City}
+										{receipt.Street} {receipt.Number}, {receipt.City}
 									</Text>
 									<TouchableOpacity
-										onPress={() => navigation.navigate("AddingItems", { id: receipt.Id, place: receipt.Place, shop: receipt.Shop })}
+										onPress={() => navigation.navigate("AddingItems", { id: receipt.Id, place: receipt.Place, shop: receipt.Shop, number: receipt.Number, street: receipt.Street })}
 										style={{ ...styles.receiptIcon, right: 50 }}
 									>
 										<Icon name="pencil" style={{ color: "#002047" }} size={25} />

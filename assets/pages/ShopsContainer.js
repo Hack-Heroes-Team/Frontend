@@ -1,31 +1,29 @@
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect, useContext } from "react";
 import Icon from "react-native-vector-icons/Entypo";
 import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
+import { AuthContext } from "../UseAuth";
 
 export default function ShopsContainer({ navigation }) {
 	const [shops, setShops] = useState([]);
 
-	useEffect(() => {
-		const shopsData = [
-			{
-				id: 1,
-				name: "Biedronka",
-				adress: "Warszawska 62, Kraków",
-				avgPrice: "48.99",
-				trend: "up",
-				products: [
-					{ productName: "Ziemniaki", price: "3.5" },
-					{ productName: "Sos słodki", price: "10.2" },
-					{ productName: "Sos kwaśny", price: "9.99" },
-				],
-			},
-			{ id: 2, name: "Lidl", adress: "Długa 20, Kraków", avgPrice: "54.23", trend: "down", products: [{ productName: "Grzyby", price: "3.29" }] },
-			{ id: 3, name: "Biedronka", adress: "Prosta 33, Kraków", avgPrice: "32.23", trend: "up", products: [{ productName: "Sos", price: "4.29" }] },
-		];
+	// Getting email from context
+	const { city } = useContext(AuthContext);
 
-		setShops(shopsData.sort((a, b) => a.avgPrice.localeCompare(b.avgPrice)));
+	// Getting previous receipts from db
+	const getData = async () => {
+		const requestOptions = {
+			method: "Post",
+			body: { city: city },
+		};
+		const shopItems = await fetch("https://hack-heroes-back.herokuapp.com/shopStats", requestOptions);
+		const data = await shopItems.json();
+
+		setShops(data.stats.sort((a, b) => a.AvgPrice - b.AvgPrice));
+	};
+	useEffect(() => {
+		getData();
 	}, []);
 
 	// Adding font
@@ -57,14 +55,20 @@ export default function ShopsContainer({ navigation }) {
 				{shops.map((shop) => {
 					i += 1;
 					return (
-						<TouchableWithoutFeedback key={shop.id} onPress={() => navigation.navigate("ShopScreen", { props: shop })}>
+						<TouchableWithoutFeedback
+							key={shop.Place}
+							onPress={() =>
+								navigation.navigate("ShopScreen", { place: shop.Place, avgPrice: shop.AvgPrice, name: shop.Name, city: shop.City, street: shop.Street, number: shop.Number })
+							}
+						>
 							<View style={styles.shopBox}>
 								<Text style={styles.shopPossitonNum}>{i + "."}</Text>
-								<View style={{ marginRight: 30 }}>
-									<Text style={styles.shopName}>{shop.name}</Text>
-									<Text style={styles.shopAddress}>{shop.adress}</Text>
+								<View>
+									<Text style={styles.shopName}>{shop.Name}</Text>
+									<Text style={styles.shopAddress}>
+										{shop.Street} {shop.Number}, {shop.City}
+									</Text>
 								</View>
-								<Icon name={"triangle-" + shop.trend} style={{ color: shop.trend === "up" ? "#4FE3B4" : "#EF094A", ...styles.triangleIcon }} size={40} />
 							</View>
 						</TouchableWithoutFeedback>
 					);
@@ -118,9 +122,5 @@ const styles = StyleSheet.create({
 		textAlign: "right",
 		fontWeight: "200",
 		fontSize: 15,
-	},
-	triangleIcon: {
-		position: "absolute",
-		right: 0,
 	},
 });

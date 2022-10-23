@@ -6,7 +6,7 @@ import { AuthContext } from "../UseAuth";
 
 export default function Settings() {
 	// Setting up logout function
-	const { logout } = useContext(AuthContext);
+	const { logout, email } = useContext(AuthContext);
 
 	// Adding fonts
 	const [fontsLoaded] = useFonts({
@@ -23,12 +23,23 @@ export default function Settings() {
 		return null;
 	}
 
+	const handleDelete = async () => {
+		const requestOptions = {
+			method: "POST",
+			body: JSON.stringify({
+				mail: email,
+			}),
+		};
+		const deleteUser = await fetch("https://hack-heroes-back.herokuapp.com/delete", requestOptions);
+		logout();
+	};
+
 	return (
 		<View style={styles.view}>
 			<TouchableOpacity onPress={() => logout()} style={styles.confirmButton}>
 				<Text style={styles.buttonText}>Wyloguj się</Text>
 			</TouchableOpacity>
-			<TouchableOpacity onPress={null} style={styles.confirmButton}>
+			<TouchableOpacity onPress={() => handleDelete()} style={styles.confirmButton}>
 				<Text style={{ ...styles.buttonText, color: "#fe2926" }}>Usuń konto</Text>
 			</TouchableOpacity>
 		</View>

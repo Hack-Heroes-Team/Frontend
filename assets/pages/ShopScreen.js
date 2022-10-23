@@ -15,12 +15,11 @@ export default function ShopScreen({ navigation, route }) {
 		const requestOptions = {
 			method: "POST",
 			body: JSON.stringify({
-				place: "Lidl 22 12",
+				place: route.params.place,
 			}),
 		};
 		const shopItems = await fetch("https://hack-heroes-back.herokuapp.com/priceForEveryItemInShop", requestOptions);
 		const data = await shopItems.json();
-
 		setProducts(data.items);
 	};
 	useEffect(() => {
@@ -48,11 +47,13 @@ export default function ShopScreen({ navigation, route }) {
 		<View style={{ flex: 1, backgroundColor: "#f9f9ff" }}>
 			{/* Adding TopBar component (underneath) */}
 			<SafeAreaView style={styles.topBar}>
-				<Text style={styles.title}>{route.params.props.name}</Text>
-				<Text style={styles.adress}>{route.params.props.adress}</Text>
+				<Text style={styles.title}>{route.params.name}</Text>
+				<Text style={styles.adress}>
+					{route.params.street} {route.params.number}, {route.params.city}
+				</Text>
 				<View style={styles.avgPriceBox}>
 					<Text style={{ fontSize: 24, fontFamily: "MavenPro_SemiBold" }}>Średnia cena {"\n"}w sklepie: </Text>
-					<Text style={{ fontFamily: "Montserrat_Bold", fontSize: 36, color: "#002047" }}>40.32zł</Text>
+					<Text style={{ fontFamily: "Montserrat_Bold", fontSize: 36, color: "#002047" }}>{route.params.avgPrice.toFixed(2)}zł</Text>
 				</View>
 			</SafeAreaView>
 

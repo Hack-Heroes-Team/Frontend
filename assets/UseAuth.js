@@ -12,13 +12,13 @@ export const AuthProvider = ({ children }) => {
 
 	useEffect(() => {
 		const checkIfLoggedIn = async () => {
-			const value = await AsyncStorage.getItem("loggedIn");
-			setEmail(value);
-			if (value !== null) {
+			const email = await AsyncStorage.getItem("email");
+			setEmail(email);
+			setCity(await AsyncStorage.getItem("city"));
+
+			if (email !== null) {
 				setloggedIn(true);
 			}
-
-			setCity("Częstochowa");
 		};
 
 		checkIfLoggedIn();

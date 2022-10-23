@@ -43,15 +43,17 @@ export default function RegisterScreen() {
 						password: form.rePassword,
 						name: form.name,
 						surname: form.surname,
+						city: form.city,
 					}),
 				};
 
-				const response = await (await fetch("https://hack-heroes-back.herokuapp.com/register", requestOptions)).json();
+				const response = await fetch("https://hack-heroes-back.herokuapp.com/register", requestOptions);
+				const data = await response.json();
 
-				console.log(response);
-
-				if (response.registered) {
-					await AsyncStorage.setItem("loggedIn", form.email);
+				console.log(data);
+				if (data.registered) {
+					await AsyncStorage.setItem("email", form.email);
+					await AsyncStorage.setItem("city", form.city);
 					login();
 				} else {
 					setError("Istnieje już użytkownik o podanym adresie e-mail");

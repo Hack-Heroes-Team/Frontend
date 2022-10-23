@@ -72,7 +72,7 @@ export default function AddingItems({ navigation, route }) {
 			body: JSON.stringify(items),
 		};
 		const newItems = await fetch("https://hack-heroes-back.herokuapp.com/addItem", requestOptions);
-		console.log(items);
+
 		navigation.navigate("Main");
 	};
 
@@ -130,9 +130,9 @@ export default function AddingItems({ navigation, route }) {
 			<ScrollView>
 				{items.map((item) => {
 					return (
-						<View style={styles.productBox} key={item.id}>
-							<Text style={styles.productName}>- {item.name}</Text>
-							<Text style={styles.productPrice}>{parseFloat(item.price).toFixed(2)}zł</Text>
+						<View style={styles.productBox} key={item.Id}>
+							<Text style={styles.productName}>- {item.Name}</Text>
+							<Text style={styles.productPrice}>{item.Price.toFixed(2)}zł</Text>
 							<TouchableOpacity
 								style={styles.productDeleteBox}
 								onPress={() => {
