@@ -7,13 +7,15 @@ import { AuthContext } from "../UseAuth";
 
 export default function AddingReceiptForm({ navigation }) {
 	// Setting up form state
-	const [form, setForm] = useState({ id: "", receiptName: "", shopName: "", shopAddress: { street: "", number: "" } });
+	const [form, setForm] = useState({ receiptName: "", shopName: "", shopAddress: { street: "", number: "" } });
 
 	// Setting up state for data drom db
 	const [userReceipts, setUserReceipts] = useState();
 
 	// Getting email from context
 	const { email, city } = useContext(AuthContext);
+
+	const [error, setError] = useState();
 
 	// Setting up navbar settings
 	useLayoutEffect(() => {
@@ -50,20 +52,24 @@ export default function AddingReceiptForm({ navigation }) {
 
 	// Function handling adding new receipt
 	const handleNewReceipt = async () => {
-		const requestOptions = {
-			method: "POST",
-			body: JSON.stringify({
-				owner: email,
-				place: form.shopName + " " + form.shopAddress.street + " " + form.shopAddress.number,
-				shop: form.shopName,
-				name: form.receiptName,
-				city: city,
-				id: Math.floor(Math.random() * (1000000 - 1) + 1),
-			}),
-		};
-		const newReceipe = await fetch("https://hack-heroes-back.herokuapp.com/addReceipt", requestOptions);
-		const data = newReceipe.json();
-		navigation.navigate("AddingItems", { id: data.id, shop: form.shopName, place: form.shopName + " " + form.shopAddress.street + " " + form.shopAddress.number });
+		if (form.shopAddress.street && form.receiptName && form.shopName && form.shopAddress.number) {
+			setError(undefined);
+
+			const requestOptions = {
+				method: "POST",
+				body: JSON.stringify({
+					owner: email,
+					place: form.shopName + " " + form.shopAddress.street + " " + form.shopAddress.number,
+					shop: form.shopName,
+					name: form.receiptName,
+					city: city,
+					id: Math.floor(Math.random() * (1000000 - 1) + 1),
+				}),
+			};
+			const newReceipe = await fetch("https://hack-heroes-back.herokuapp.com/addReceipt", requestOptions);
+			const data = newReceipe.json();
+			navigation.navigate("AddingItems", { id: data.id, shop: form.shopName, place: form.shopName + " " + form.shopAddress.street + " " + form.shopAddress.number });
+		} else setError("Uzupełnij wszystkie pola!");
 	};
 
 	// Function handling deleting receipt
@@ -132,6 +138,7 @@ export default function AddingReceiptForm({ navigation }) {
 					placeholderTextColor={"#00204750"}
 				/>
 			</View>
+			{error ? <Text style={styles.errorText}>Uzupełnij wszystkie pola</Text> : null}
 
 			{/* Subtitle */}
 			<Text style={styles.subtitle}>Poprzednie paragony</Text>
@@ -207,6 +214,12 @@ const styles = StyleSheet.create({
 		marginTop: 20,
 		padding: 7.5,
 		textAlign: "center",
+	},
+	errorText: {
+		textAlign: "left",
+		width: "80%",
+		marginTop: 5,
+		color: "#fe2926",
 	},
 
 	// Receipts stylying
