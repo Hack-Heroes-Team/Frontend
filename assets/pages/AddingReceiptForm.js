@@ -9,12 +9,13 @@ export default function AddingReceiptForm({ navigation }) {
 	// Setting up form state
 	const [form, setForm] = useState({ receiptName: "", shopName: "", shopAddress: { street: "", number: "" } });
 
-	// Setting up state for data drom db
+	// Setting up state for data from db
 	const [userReceipts, setUserReceipts] = useState();
 
 	// Getting email from context
 	const { email, city } = useContext(AuthContext);
 
+	// Setting up error variavle
 	const [error, setError] = useState();
 
 	// Setting up navbar settings
@@ -46,12 +47,14 @@ export default function AddingReceiptForm({ navigation }) {
 		data.receipts.reverse();
 		setUserReceipts(data.receipts);
 	};
+	// On load trigger
 	useEffect(() => {
 		getData();
 	}, []);
 
 	// Function handling adding new receipt
 	const handleNewReceipt = async () => {
+		// Checking if all fields aren't empty
 		if (form.shopAddress.street && form.receiptName && form.shopName && form.shopAddress.number) {
 			setError(undefined);
 
@@ -71,7 +74,7 @@ export default function AddingReceiptForm({ navigation }) {
 			const data = newReceipe.json();
 
 			navigation.navigate("AddingItems", { id: data.id, shop: form.shopName, place: form.shopName + " " + form.shopAddress.street + " " + form.shopAddress.number });
-		} else setError("Uzupełnij wszystkie pola!");
+		} else setError("Uzupełnij wszystkie pola!"); // Setting error
 	};
 
 	// Function handling deleting receipt
@@ -85,6 +88,7 @@ export default function AddingReceiptForm({ navigation }) {
 
 		const deleteReceipt = await fetch("https://hack-heroes-back.herokuapp.com/deleteReceipt", requestOptions);
 
+		// Refresh
 		getData();
 	};
 
@@ -140,6 +144,8 @@ export default function AddingReceiptForm({ navigation }) {
 					placeholderTextColor={"#00204750"}
 				/>
 			</View>
+
+			{/* Error */}
 			{error ? <Text style={styles.errorText}>Uzupełnij wszystkie pola</Text> : null}
 
 			{/* Subtitle */}

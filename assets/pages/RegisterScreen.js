@@ -15,15 +15,19 @@ export default function RegisterScreen() {
 	// Setting up error state
 	const [error, setError] = useState(undefined);
 
+	// Keyboard state
 	const [keyboardShift, setShift] = useState(false);
 
+	// Setting fields refs
 	const InputForDaysInterestTextInputRef2 = React.useRef();
 	const InputForDaysInterestTextInputRef3 = React.useRef();
 	const InputForDaysInterestTextInputRef4 = React.useRef();
 	const InputForDaysInterestTextInputRef5 = React.useRef();
 	const InputForDaysInterestTextInputRef6 = React.useRef();
 
+	//On load
 	useEffect(() => {
+		// Change keyboard state
 		const keyboardDidShowListener = Keyboard.addListener("keyboardDidShow", () => {
 			setShift(true);
 		});
@@ -54,6 +58,7 @@ export default function RegisterScreen() {
 		return null;
 	}
 
+	// Validate Email
 	const validateEmail = (email) => {
 		return String(email)
 			.toLowerCase()
@@ -62,8 +67,11 @@ export default function RegisterScreen() {
 
 	// Trying to loggin user
 	const handleRegister = async () => {
+		// Checking if all field contents data
 		if (form.name && form.city && form.email && form.surname && form.password && form.rePassword) {
+			// Checking if email is correct
 			if (validateEmail(form.email)) {
+				// Checking if passwords match
 				if (form.password === form.rePassword) {
 					const requestOptions = {
 						method: "POST",
@@ -79,16 +87,18 @@ export default function RegisterScreen() {
 					const response = await fetch("https://hack-heroes-back.herokuapp.com/register", requestOptions);
 					const data = await response.json();
 
+					// Checking if registered
 					if (data.registered) {
 						await AsyncStorage.setItem("email", form.email);
 						await AsyncStorage.setItem("city", form.city);
 						login();
 					} else {
+						// If not setting error
 						setError("Istnieje już użytkownik o podanym adresie e-mail");
 					}
 				}
 			}
-		} else setError("Uzupełnij wszystkie pola");
+		} else setError("Uzupełnij wszystkie pola"); // Setting error if some field are empty
 	};
 
 	return (

@@ -10,6 +10,8 @@ export default function AddingItems({ navigation, route }) {
 	const [items, setItems] = useState([]);
 	const [tempItem, setTempItem] = useState({ name: "", price: "", error: false });
 
+	// Setting up variable to handle from db
+
 	const [dataFromDB, setDataFromDB] = useState([]);
 
 	// Getting email from context
@@ -41,9 +43,9 @@ export default function AddingItems({ navigation, route }) {
 		};
 		const shopItems = await fetch("https://hack-heroes-back.herokuapp.com/findReceipt", requestOptions);
 		const data = await shopItems.json();
-		console.log(data.receipt);
 		setDataFromDB(data.receipt.Items);
 	};
+	// On load trigger
 	useEffect(() => {
 		getData();
 	}, []);
@@ -54,7 +56,7 @@ export default function AddingItems({ navigation, route }) {
 			setItems([
 				...items,
 				{
-					Receiptid: route.params.id,
+					Receipt_id: route.params.id,
 					Owner: email,
 					Place: route.params.place,
 					Shop: route.params.shop,
@@ -68,6 +70,7 @@ export default function AddingItems({ navigation, route }) {
 		} else setTempItem({ ...tempItem, error: true });
 	};
 
+	// Send items to database
 	const handleItemsToDb = async () => {
 		const requestOptions = {
 			method: "POST",
@@ -75,6 +78,7 @@ export default function AddingItems({ navigation, route }) {
 		};
 		const newItems = await fetch("https://hack-heroes-back.herokuapp.com/addItem", requestOptions);
 
+		// Navigate to main after adding items to db
 		navigation.navigate("Main");
 	};
 
@@ -130,6 +134,7 @@ export default function AddingItems({ navigation, route }) {
 
 			{/* Displaying products on list */}
 			<ScrollView>
+				{/* Displaying local items */}
 				{items.map((item) => {
 					return (
 						<View style={styles.productBox} key={item.LocalId}>
@@ -148,6 +153,7 @@ export default function AddingItems({ navigation, route }) {
 					);
 				})}
 
+				{/* Displaying items from db */}
 				{dataFromDB.map((item) => {
 					return (
 						<View style={styles.productBox} key={item.Id}>
@@ -155,6 +161,7 @@ export default function AddingItems({ navigation, route }) {
 							<Text style={styles.productPrice}>{item.Price.toFixed(2)}zł</Text>
 							<TouchableOpacity
 								style={styles.productDeleteBox}
+								// Deleting item in db
 								onPress={async () => {
 									const requestOptions = {
 										method: "POST",

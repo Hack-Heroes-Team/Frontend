@@ -23,6 +23,7 @@ export default function Settings() {
 		return null;
 	}
 
+	// Deleting account
 	const handleDelete = async () => {
 		const requestOptions = {
 			method: "POST",
@@ -36,9 +37,12 @@ export default function Settings() {
 
 	return (
 		<View style={styles.view}>
+			{/* LogOut button */}
 			<TouchableOpacity onPress={() => logout()} style={styles.confirmButton}>
 				<Text style={styles.buttonText}>Wyloguj się</Text>
 			</TouchableOpacity>
+
+			{/* Delete account button */}
 			<TouchableOpacity onPress={() => handleDelete()} style={styles.confirmButton}>
 				<Text style={{ ...styles.buttonText, color: "#fe2926" }}>Usuń konto</Text>
 			</TouchableOpacity>

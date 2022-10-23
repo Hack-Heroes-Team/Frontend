@@ -13,8 +13,10 @@ export default function ShopsContainer({ navigation }) {
 	// Getting previous receipts from db
 	const getData = async () => {
 		const requestOptions = {
-			method: "Post",
-			body: JSON.stringify({ city: city }),
+			method: "POST",
+			body: JSON.stringify({
+				city: city,
+			}),
 		};
 		const shopItems = await fetch("https://hack-heroes-back.herokuapp.com/shopStats", requestOptions);
 		const data = await shopItems.json();

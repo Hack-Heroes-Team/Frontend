@@ -16,6 +16,7 @@ export default function LoginScreen() {
 	// If logging in failed change to 'true' and show error text
 	const [error, setError] = useState(false);
 
+	// Setting fields refs
 	const secondInputForDaysInterestTextInputRef = React.useRef();
 
 	// Adding fonts
@@ -25,9 +26,12 @@ export default function LoginScreen() {
 		MavenPro_Regular: require("../fonts/MavenPro-Regular.ttf"),
 	});
 
+	// Keyboard state
 	const [keyboardShift, setShift] = useState(false);
 
+	// On load
 	useEffect(() => {
+		// Change keyboard state
 		const keyboardDidShowListener = Keyboard.addListener("keyboardDidShow", () => {
 			setShift(true);
 		});
@@ -60,6 +64,7 @@ export default function LoginScreen() {
 		const response = await fetch("https://hack-heroes-back.herokuapp.com/login", requestOptions);
 		const data = await response.json();
 
+		// Check if logged in
 		if (data.city) {
 			await AsyncStorage.setItem("email", form.email);
 			await AsyncStorage.setItem("city", data.city);

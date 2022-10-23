@@ -9,8 +9,10 @@ export default function ShopScreen({ navigation, route }) {
 	// Setting up variable to handle data in search bar
 	const [search, onChangeSearch] = useState("");
 
+	// Setting up variable to save products
 	const [products, setProducts] = useState();
 
+	// Setting up variable to save location
 	const [location, setLocation] = useState();
 
 	// Getting previous receipts from db
@@ -25,6 +27,8 @@ export default function ShopScreen({ navigation, route }) {
 		const data = await shopItems.json();
 		setProducts(data.items);
 	};
+
+	// Getting shop location
 	const getLocation = async () => {
 		const requestOptions = {
 			method: "GET",
@@ -34,6 +38,7 @@ export default function ShopScreen({ navigation, route }) {
 		setLocation({ longitude: locationData.data[0].longitude, latitude: locationData.data[0].latitude, latitudeDelta: 0.001, longitudeDelta: 0.01 });
 	};
 
+	// On load trigger
 	useEffect(() => {
 		getLocation();
 		getData();
@@ -60,15 +65,19 @@ export default function ShopScreen({ navigation, route }) {
 		<View style={{ flex: 1, backgroundColor: "#f9f9ff" }}>
 			{/* Adding TopBar component (underneath) */}
 			<SafeAreaView style={styles.topBar}>
+				{/* Title */}
 				<Text style={styles.title}>{route.params.name}</Text>
 				<Text style={styles.adress}>
 					{route.params.street} {route.params.number}, {route.params.city}
 				</Text>
+
+				{/* Avg price */}
 				<View style={styles.avgPriceBox}>
 					<Text style={{ fontSize: 24, fontFamily: "MavenPro_SemiBold" }}>Średnia cena {"\n"}w sklepie: </Text>
 					<Text style={{ fontFamily: "Montserrat_Bold", fontSize: 36, color: "#002047" }}>{route.params.avgPrice.toFixed(2)}zł</Text>
 				</View>
 
+				{/* Map */}
 				<MapView
 					region={location}
 					style={{
@@ -82,6 +91,7 @@ export default function ShopScreen({ navigation, route }) {
 						borderWidth: 5,
 					}}
 				>
+					{/* Marker on map */}
 					<Marker coordinate={location} />
 				</MapView>
 			</SafeAreaView>
@@ -94,6 +104,7 @@ export default function ShopScreen({ navigation, route }) {
 
 			{/* Scrollable part of view */}
 			<ScrollView>
+				{/* Products list */}
 				{products
 					? products
 							.filter((product) => {
