@@ -10,28 +10,29 @@ export const AuthProvider = ({ children }) => {
 	const [email, setEmail] = useState("");
 	const [city, setCity] = useState("");
 
+	const checkIfLoggedIn = async () => {
+		const email = await AsyncStorage.getItem("email");
+		setEmail(email);
+		setCity(await AsyncStorage.getItem("city"));
+
+		if (email !== null) {
+			setloggedIn(true);
+		}
+	};
 	useEffect(() => {
-		const checkIfLoggedIn = async () => {
-			const email = await AsyncStorage.getItem("email");
-			setEmail(email);
-			setCity(await AsyncStorage.getItem("city"));
-
-			if (email !== null) {
-				setloggedIn(true);
-			}
-		};
-
 		checkIfLoggedIn();
 	}, []);
 
 	const login = () => {
 		setloggedIn(true);
+		checkIfLoggedIn();
 	};
 
 	// Logout updates the user data to default
 	const logout = async () => {
-		await AsyncStorage.removeItem("loggedIn");
+		await AsyncStorage.removeItem("email");
 		setloggedIn(false);
+		checkIfLoggedIn();
 	};
 
 	return (

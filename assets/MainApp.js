@@ -18,7 +18,6 @@ export default function MainApp() {
 
 	// Is loggedIn?
 	const { loggedIn } = useContext(AuthContext);
-
 	return (
 		<Stack.Navigator>
 			{/* Is user logged? */}

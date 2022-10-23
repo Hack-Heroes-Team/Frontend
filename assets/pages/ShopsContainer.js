@@ -1,7 +1,6 @@
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import React, { useCallback, useState, useEffect, useContext } from "react";
-import Icon from "react-native-vector-icons/Entypo";
 import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
 import { AuthContext } from "../UseAuth";
 
@@ -15,7 +14,7 @@ export default function ShopsContainer({ navigation }) {
 	const getData = async () => {
 		const requestOptions = {
 			method: "Post",
-			body: { city: city },
+			body: JSON.stringify({ city: city }),
 		};
 		const shopItems = await fetch("https://hack-heroes-back.herokuapp.com/shopStats", requestOptions);
 		const data = await shopItems.json();

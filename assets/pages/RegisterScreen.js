@@ -32,31 +32,38 @@ export default function RegisterScreen() {
 		return null;
 	}
 
+	const validateEmail = (email) => {
+		return String(email)
+			.toLowerCase()
+			.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+	};
+
 	// Trying to loggin user
 	const handleRegister = async () => {
 		if (form.name && form.city && form.email && form.surname && form.password && form.rePassword) {
-			if (form.password === form.rePassword) {
-				const requestOptions = {
-					method: "POST",
-					body: JSON.stringify({
-						mail: form.email,
-						password: form.rePassword,
-						name: form.name,
-						surname: form.surname,
-						city: form.city,
-					}),
-				};
+			if (validateEmail(form.email)) {
+				if (form.password === form.rePassword) {
+					const requestOptions = {
+						method: "POST",
+						body: JSON.stringify({
+							mail: form.email,
+							password: form.rePassword,
+							name: form.name,
+							surname: form.surname,
+							city: form.city,
+						}),
+					};
 
-				const response = await fetch("https://hack-heroes-back.herokuapp.com/register", requestOptions);
-				const data = await response.json();
+					const response = await fetch("https://hack-heroes-back.herokuapp.com/register", requestOptions);
+					const data = await response.json();
 
-				console.log(data);
-				if (data.registered) {
-					await AsyncStorage.setItem("email", form.email);
-					await AsyncStorage.setItem("city", form.city);
-					login();
-				} else {
-					setError("Istnieje już użytkownik o podanym adresie e-mail");
+					if (data.registered) {
+						await AsyncStorage.setItem("email", form.email);
+						await AsyncStorage.setItem("city", form.city);
+						login();
+					} else {
+						setError("Istnieje już użytkownik o podanym adresie e-mail");
+					}
 				}
 			}
 		} else setError("Uzupełnij wszystkie pola");
@@ -77,7 +84,13 @@ export default function RegisterScreen() {
 				<TextInput
 					autoCapitalize={"none"}
 					value={form.email}
-					onChangeText={(email) => setform({ ...form, email: email })}
+					onChangeText={(email) => {
+						setform({ ...form, email: email });
+
+						if (!validateEmail(email)) {
+							setError("Podaj prawidłowy adres email");
+						} else setError(undefined);
+					}}
 					placeholder="email..."
 					placeholderTextColor={"#00204750"}
 					style={styles.input}

@@ -42,11 +42,9 @@ export default function LoginScreen() {
 		const response = await fetch("https://hack-heroes-back.herokuapp.com/login", requestOptions);
 		const data = await response.json();
 
-		console.log(data);
-
-		if (data.authorized) {
+		if (data.city) {
 			await AsyncStorage.setItem("email", form.email);
-			await AsyncStorage.setItem("city", "Częstochowa");
+			await AsyncStorage.setItem("city", data.city);
 			login();
 		} else {
 			setError(true);

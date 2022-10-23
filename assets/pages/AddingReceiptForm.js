@@ -69,6 +69,7 @@ export default function AddingReceiptForm({ navigation }) {
 			};
 			const newReceipe = await fetch("https://hack-heroes-back.herokuapp.com/addReceipt", requestOptions);
 			const data = newReceipe.json();
+
 			navigation.navigate("AddingItems", { id: data.id, shop: form.shopName, place: form.shopName + " " + form.shopAddress.street + " " + form.shopAddress.number });
 		} else setError("Uzupełnij wszystkie pola!");
 	};
