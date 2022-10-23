@@ -60,10 +60,10 @@ export default function AddingReceiptForm({ navigation }) {
 				body: JSON.stringify({
 					owner: email,
 					place: form.shopName + " " + form.shopAddress.street + " " + form.shopAddress.number,
-					shop: form.shopName,
+					shop: form.shopName.replace(/\s+/g, ""),
 					name: form.receiptName,
 					city: city,
-					street: form.shopAddress.street,
+					street: form.shopAddress.street.replace(/\s+/g, ""),
 					number: parseFloat(form.shopAddress.number),
 				}),
 			};
@@ -149,7 +149,6 @@ export default function AddingReceiptForm({ navigation }) {
 			<ScrollView>
 				{userReceipts
 					? userReceipts.map((receipt) => {
-							console.log(receipt);
 							return (
 								<View style={styles.receiptBox} key={receipt.Id}>
 									<Text style={styles.receiptName}>

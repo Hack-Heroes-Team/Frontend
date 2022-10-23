@@ -1,5 +1,5 @@
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, TextInput, StatusBar } from "react-native";
-import React, { useState, useCallback, useContext } from "react";
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, TextInput, StatusBar, Keyboard } from "react-native";
+import React, { useState, useCallback, useContext, useEffect } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { AuthContext } from "../UseAuth";
@@ -14,6 +14,28 @@ export default function RegisterScreen() {
 
 	// Setting up error state
 	const [error, setError] = useState(undefined);
+
+	const [keyboardShift, setShift] = useState(false);
+
+	const InputForDaysInterestTextInputRef2 = React.useRef();
+	const InputForDaysInterestTextInputRef3 = React.useRef();
+	const InputForDaysInterestTextInputRef4 = React.useRef();
+	const InputForDaysInterestTextInputRef5 = React.useRef();
+	const InputForDaysInterestTextInputRef6 = React.useRef();
+
+	useEffect(() => {
+		const keyboardDidShowListener = Keyboard.addListener("keyboardDidShow", () => {
+			setShift(true);
+		});
+		const keyboardDidHideListener = Keyboard.addListener("keyboardDidHide", () => {
+			setShift(false);
+		});
+
+		return () => {
+			keyboardDidHideListener.remove();
+			keyboardDidShowListener.remove();
+		};
+	}, []);
 
 	// Adding fonts
 	const [fontsLoaded] = useFonts({
@@ -74,14 +96,42 @@ export default function RegisterScreen() {
 			<StatusBar barStyle={"dark-content"} />
 
 			{/* Title */}
-			<Text style={styles.title}>Zarejestruj się</Text>
+			<Text style={{ ...styles.title, transform: keyboardShift ? [{ translateY: -75 }] : [] }}>Zarejestruj się</Text>
 			{/* Register form */}
-			<View style={styles.formContainer}>
+			<View style={{ ...styles.formContainer, transform: keyboardShift ? [{ translateY: -150 }] : [] }}>
 				{/* Fields */}
-				<TextInput value={form.name} onChangeText={(name) => setform({ ...form, name: name })} placeholder="imię..." placeholderTextColor={"#00204750"} style={styles.input} />
-				<TextInput value={form.surname} onChangeText={(surname) => setform({ ...form, surname: surname })} placeholder="nazwisko..." placeholderTextColor={"#00204750"} style={styles.input} />
-				<TextInput value={form.city} onChangeText={(city) => setform({ ...form, city: city })} placeholder="miasto..." placeholderTextColor={"#00204750"} style={styles.input} />
 				<TextInput
+					value={form.name}
+					onChangeText={(name) => setform({ ...form, name: name })}
+					placeholder="imię..."
+					placeholderTextColor={"#00204750"}
+					style={styles.input}
+					returnKeyType={"next"}
+					onSubmitEditing={() => InputForDaysInterestTextInputRef2.current?.focus()}
+				/>
+				<TextInput
+					ref={InputForDaysInterestTextInputRef2}
+					onSubmitEditing={() => InputForDaysInterestTextInputRef3.current?.focus()}
+					value={form.surname}
+					onChangeText={(surname) => setform({ ...form, surname: surname })}
+					placeholder="nazwisko..."
+					placeholderTextColor={"#00204750"}
+					style={styles.input}
+					returnKeyType={"next"}
+				/>
+				<TextInput
+					ref={InputForDaysInterestTextInputRef3}
+					onSubmitEditing={() => InputForDaysInterestTextInputRef4.current?.focus()}
+					value={form.city}
+					onChangeText={(city) => setform({ ...form, city: city })}
+					placeholder="miasto..."
+					placeholderTextColor={"#00204750"}
+					style={styles.input}
+					returnKeyType={"next"}
+				/>
+				<TextInput
+					ref={InputForDaysInterestTextInputRef4}
+					onSubmitEditing={() => InputForDaysInterestTextInputRef5.current?.focus()}
 					autoCapitalize={"none"}
 					value={form.email}
 					onChangeText={(email) => {
@@ -94,8 +144,12 @@ export default function RegisterScreen() {
 					placeholder="email..."
 					placeholderTextColor={"#00204750"}
 					style={styles.input}
+					returnKeyType={"next"}
+					keyboardType={"email-address"}
 				/>
 				<TextInput
+					ref={InputForDaysInterestTextInputRef5}
+					onSubmitEditing={() => InputForDaysInterestTextInputRef6.current?.focus()}
 					autoCapitalize={"none"}
 					secureTextEntry={true}
 					value={form.password}
@@ -106,8 +160,10 @@ export default function RegisterScreen() {
 					placeholder="hasło..."
 					placeholderTextColor={"#00204750"}
 					style={styles.input}
+					returnKeyType={"next"}
 				/>
 				<TextInput
+					ref={InputForDaysInterestTextInputRef6}
 					autoCapitalize={"none"}
 					secureTextEntry={true}
 					value={form.rePassword}
@@ -122,6 +178,7 @@ export default function RegisterScreen() {
 					placeholder="powtórz hasło..."
 					placeholderTextColor={"#00204750"}
 					style={styles.input}
+					returnKeyType={"done"}
 				/>
 
 				{/* Place to display error */}

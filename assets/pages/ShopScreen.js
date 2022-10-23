@@ -3,12 +3,15 @@ import React, { useLayoutEffect, useEffect, useState, useCallback } from "react"
 import Icon from "react-native-vector-icons/Entypo";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+import MapView, { Marker } from "react-native-maps";
 
 export default function ShopScreen({ navigation, route }) {
 	// Setting up variable to handle data in search bar
 	const [search, onChangeSearch] = useState("");
 
 	const [products, setProducts] = useState();
+
+	const [location, setLocation] = useState();
 
 	// Getting previous receipts from db
 	const getData = async () => {
@@ -22,7 +25,17 @@ export default function ShopScreen({ navigation, route }) {
 		const data = await shopItems.json();
 		setProducts(data.items);
 	};
+	const getLocation = async () => {
+		const requestOptions = {
+			method: "GET",
+		};
+		const location = await fetch("http://api.positionstack.com/v1/forward?access_key=9244d15e901e378c1c6f0f390f33847a&query=" + route.params.place, requestOptions);
+		const locationData = await location.json();
+		setLocation({ longitude: locationData.data[0].longitude, latitude: locationData.data[0].latitude, latitudeDelta: 0.001, longitudeDelta: 0.01 });
+	};
+
 	useEffect(() => {
+		getLocation();
 		getData();
 	}, []);
 
@@ -55,6 +68,22 @@ export default function ShopScreen({ navigation, route }) {
 					<Text style={{ fontSize: 24, fontFamily: "MavenPro_SemiBold" }}>Średnia cena {"\n"}w sklepie: </Text>
 					<Text style={{ fontFamily: "Montserrat_Bold", fontSize: 36, color: "#002047" }}>{route.params.avgPrice.toFixed(2)}zł</Text>
 				</View>
+
+				<MapView
+					region={location}
+					style={{
+						borderRadius: 7.5,
+						alignItems: "center",
+						width: "90%",
+						alignSelf: "center",
+						height: 200,
+						marginBottom: 20,
+						borderColor: "#fff",
+						borderWidth: 5,
+					}}
+				>
+					<Marker coordinate={location} />
+				</MapView>
 			</SafeAreaView>
 
 			{/* Search window */}

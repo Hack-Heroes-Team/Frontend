@@ -1,5 +1,5 @@
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, TextInput, StatusBar } from "react-native";
-import React, { useState, useCallback, useContext } from "react";
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, TextInput, StatusBar, Keyboard } from "react-native";
+import React, { useState, useCallback, useContext, useEffect } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { AuthContext } from "../UseAuth";
@@ -16,12 +16,30 @@ export default function LoginScreen() {
 	// If logging in failed change to 'true' and show error text
 	const [error, setError] = useState(false);
 
+	const secondInputForDaysInterestTextInputRef = React.useRef();
+
 	// Adding fonts
 	const [fontsLoaded] = useFonts({
 		Ubuntu_Bold: require("../fonts/Ubuntu-Bold.ttf"),
 		MavenPro_Bold: require("../fonts/MavenPro-Bold.ttf"),
 		MavenPro_Regular: require("../fonts/MavenPro-Regular.ttf"),
 	});
+
+	const [keyboardShift, setShift] = useState(false);
+
+	useEffect(() => {
+		const keyboardDidShowListener = Keyboard.addListener("keyboardDidShow", () => {
+			setShift(true);
+		});
+		const keyboardDidHideListener = Keyboard.addListener("keyboardDidHide", () => {
+			setShift(false);
+		});
+
+		return () => {
+			keyboardDidHideListener.remove();
+			keyboardDidShowListener.remove();
+		};
+	}, []);
 
 	// Waiting for fonts to load
 	const onLayoutRootView = useCallback(async () => {
@@ -56,20 +74,25 @@ export default function LoginScreen() {
 			<StatusBar barStyle={"dark-content"} />
 
 			{/* Title */}
-			<Text style={styles.title}>Zaloguj się</Text>
+			<Text style={{ ...styles.title, transform: keyboardShift ? [{ translateY: -50 }] : [] }}>Zaloguj się</Text>
 
 			{/* Login form */}
-			<View style={styles.formContainer}>
+			<View style={{ ...styles.formContainer, transform: keyboardShift ? [{ translateY: -175 }] : [] }}>
 				{/* Fields */}
 				<TextInput
+					returnKeyType={"next"}
 					autoCapitalize={"none"}
 					value={form.email}
 					onChangeText={(email) => setForm({ ...form.password, email: email })}
 					style={styles.input}
 					placeholder="email..."
+					keyboardType={"email-address"}
 					placeholderTextColor={"#00204750"}
+					onSubmitEditing={() => secondInputForDaysInterestTextInputRef.current?.focus()}
 				/>
 				<TextInput
+					ref={secondInputForDaysInterestTextInputRef}
+					returnKeyType={"done"}
 					secureTextEntry={true}
 					autoCapitalize={"none"}
 					value={form.password}

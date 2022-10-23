@@ -10,6 +10,8 @@ export default function AddingItems({ navigation, route }) {
 	const [items, setItems] = useState([]);
 	const [tempItem, setTempItem] = useState({ name: "", price: "", error: false });
 
+	const [dataFromDB, setDataFromDB] = useState([]);
+
 	// Getting email from context
 	const { email, city } = useContext(AuthContext);
 
@@ -34,13 +36,13 @@ export default function AddingItems({ navigation, route }) {
 		const requestOptions = {
 			method: "POST",
 			body: JSON.stringify({
-				place: route.params.place,
+				id: route.params.id,
 			}),
 		};
-		const shopItems = await fetch("https://hack-heroes-back.herokuapp.com/priceForEveryItemInShop", requestOptions);
+		const shopItems = await fetch("https://hack-heroes-back.herokuapp.com/findReceipt", requestOptions);
 		const data = await shopItems.json();
-
-		console.log(data);
+		console.log(data.receipt);
+		setDataFromDB(data.receipt.Items);
 	};
 	useEffect(() => {
 		getData();
@@ -57,7 +59,7 @@ export default function AddingItems({ navigation, route }) {
 					Place: route.params.place,
 					Shop: route.params.shop,
 					City: city,
-					Id: Math.floor(Math.random() * (1000000 - 1) + 1),
+					LocalId: Math.floor(Math.random() * (1000000000 - 1) + 1),
 					Name: tempItem.name,
 					Price: parseFloat(tempItem.price),
 				},
@@ -130,14 +132,40 @@ export default function AddingItems({ navigation, route }) {
 			<ScrollView>
 				{items.map((item) => {
 					return (
-						<View style={styles.productBox} key={item.Id}>
+						<View style={styles.productBox} key={item.LocalId}>
 							<Text style={styles.productName}>- {item.Name}</Text>
 							<Text style={styles.productPrice}>{item.Price.toFixed(2)}zł</Text>
 							<TouchableOpacity
 								style={styles.productDeleteBox}
 								onPress={() => {
-									let afterDelete = items.filter((product) => product.id != item.id);
+									let afterDelete = items.filter((product) => product.LocalId != item.LocalId);
 									setItems(afterDelete);
+								}}
+							>
+								<Icon name="cross" style={{ color: "#fe2926" }} size={25} />
+							</TouchableOpacity>
+						</View>
+					);
+				})}
+
+				{dataFromDB.map((item) => {
+					return (
+						<View style={styles.productBox} key={item.Id}>
+							<Text style={styles.productName}>- {item.Name}</Text>
+							<Text style={styles.productPrice}>{item.Price.toFixed(2)}zł</Text>
+							<TouchableOpacity
+								style={styles.productDeleteBox}
+								onPress={async () => {
+									const requestOptions = {
+										method: "POST",
+										body: JSON.stringify({
+											place: item.Place,
+											name: item.Name,
+											id: item.Id,
+										}),
+									};
+									const deleteItem = await fetch("https://hack-heroes-back.herokuapp.com/deleteItem", requestOptions);
+									getData();
 								}}
 							>
 								<Icon name="cross" style={{ color: "#fe2926" }} size={25} />

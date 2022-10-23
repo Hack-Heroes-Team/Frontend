@@ -26,12 +26,10 @@ export default function Dashboard() {
 			const avgReceiptPrice = await fetch("https://hack-heroes-back.herokuapp.com/avgReceiptPrice", requestOptions);
 			const dataAvg = await avgReceiptPrice.json();
 
-			setDashboard({ lastReceipt: dataLast.receipt.Price.toFixed(2) + "zł", avgReceiptPrice: dataAvg.Avg.toFixed(2) + "zł" });
+			const avgReceiptPriceNearby = await fetch("https://hack-heroes-back.herokuapp.com/avgReceiptPriceNearby", requestOptions);
+			const dataNearby = await avgReceiptPriceNearby.json();
 
-			// const avgReceiptPriceNearby = await fetch("https://hack-heroes-back.herokuapp.com/avgReceiptNearby", requestOptions);
-			// const dataNearby = await avgReceiptPriceNearby.json();
-			// console.log(await dataNearby);
-			// setDashboard({ ...dashboard, avgReceiptPriceNearby: dataNearby.Avg.toFixed(2) + "zł" });
+			setDashboard({ lastReceipt: dataLast.receipt.Price.toFixed(2) + "zł", avgReceiptPrice: dataAvg.Avg.toFixed(2) + "zł", avgReceiptPriceNearby: dataNearby.Avg.toFixed(2) + "zł" });
 		};
 
 		getData();
