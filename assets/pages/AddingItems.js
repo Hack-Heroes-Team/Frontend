@@ -56,7 +56,7 @@ export default function AddingItems({ navigation, route }) {
 			setItems([
 				...items,
 				{
-					Receipt_id: route.params.id,
+					Receiptid: route.params.id,
 					Owner: email,
 					Place: route.params.place,
 					Shop: route.params.shop,
